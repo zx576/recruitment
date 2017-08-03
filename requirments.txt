@@ -1,0 +1,7 @@
+django
+scrapy
+bs4
+lxml
+pymysql
+requests
+
