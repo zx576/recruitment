@@ -4,9 +4,51 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
-from backend.models import Offer
+from .items import CrawlendItem, FirmItem, ProxyItem
+from backend.models import Proxy, Firm, Recruit
 
+# Offer_keys = ['resource', 'url', 'name', 'salary_from', 'salary_to']
 class CrawlendPipeline(object):
+
     def process_item(self, item, spider):
-        item.save()
-        return item
+        '''
+        :param item: dict
+        :param spider:
+        :return:
+
+        本项目比较得意的地方，完美解决 django-scrapy 存外键的问题
+        在 spider 中使用一个字典存两个 DjangoItem 对象
+        在 pipline 中分发两个 DjangoItem 对象
+        这样就可以轻松存外键了， 详细说明见博客园：
+        '''
+        def _check_firm(firm_name):
+            try:
+                ins = Firm.objects.get(firm_name=firm_name)
+                return ins
+            except:
+                return None
+        #
+        if isinstance(item, dict):
+
+            offer = item['offer']
+            firm = item['firm']
+            f_name = firm['firm_name']
+            offers_ = 0
+            if _check_firm(f_name):
+                firm = _check_firm(f_name)
+                offers_ = len(firm.recruit_set.filter(name=offer['name']))
+
+            # print('step2')
+            firm.save()
+
+            if offers_ == 0:
+
+                offer['belong'] = Firm.objects.get(firm_name=f_name)
+                offer.save()
+
+            return item
+
+        # 测试用
+        if isinstance(item, ProxyItem):
+            # item.save()
+            return item

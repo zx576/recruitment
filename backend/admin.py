@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Offer, Proxy
+from .models import Recruit, Proxy, Firm
 
-admin.site.register(Offer)
+admin.site.register(Recruit)
+admin.site.register(Firm)
 
 
 @admin.register(Proxy)

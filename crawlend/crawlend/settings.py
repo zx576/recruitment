@@ -17,6 +17,11 @@ sys.path.append(BASE_DIR)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
 django.setup()
 
+# only download today's information
+IS_ONLY_TODAY = False
+
+# the keywords you want to search
+KEYWORD = 'python'
 
 BOT_NAME = 'crawlend'
 SPIDER_MODULES = ['crawlend.spiders']
