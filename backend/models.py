@@ -32,7 +32,7 @@ class Recruit(models.Model):
     temptation = models.CharField('职位诱惑', max_length=255)
     release = models.DateField('发布日期')
     description = models.TextField('职位描述')
-    member = models.IntegerField('招聘人数', default=0)
+    member = models.IntegerField('招聘人数', default=-1)
 
     # 其他属性
     is_alive = models.BooleanField('是否有效', default=True)
@@ -61,18 +61,22 @@ class Firm(models.Model):
         ('6', '股份'),
         ('7', '上市')
     )
-    firm_nature = models.CharField('企业性质', choices=CHOICES2, default='4', max_length=255)
+    firm_nature = models.CharField('企业性质', choices=CHOICES2, default='5', max_length=255)
     firm_industry = models.CharField('企业行业', max_length=255)
     firm_location = models.CharField('公司地址', max_length=255)
 
     # 不用 URLField 是因为一些招聘信息中没有此信息
     # 同时给出的地址可能是相对地址
     firm_website = models.CharField('公司网站', default='', max_length=255)
+    # 地图位置
+    firm_lng = models.FloatField('经度', default=-1)
+    firm_lat = models.FloatField('纬度', default=-1)
 
     # 其他属性
     is_alive = models.BooleanField('是否有效', default=True)
     created_time = models.DateTimeField('创建日期', auto_now_add=True)
     modified_time = models.DateTimeField('修改日期', auto_now=True)
+
 
 
     def __str__(self):

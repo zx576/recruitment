@@ -30,19 +30,21 @@ class CrawlendPipeline(object):
         #
         if isinstance(item, dict):
 
+            # 提取 两个 ITEM
             offer = item['offer']
             firm = item['firm']
             f_name = firm['firm_name']
             offers_ = 0
+            # 判断该公司是否存在
             if _check_firm(f_name):
                 firm = _check_firm(f_name)
                 offers_ = len(firm.recruit_set.filter(name=offer['name']))
 
-            # print('step2')
+            # 保存数据
             firm.save()
 
+            # 判断职位是否有重复
             if offers_ == 0:
-
                 offer['belong'] = Firm.objects.get(firm_name=f_name)
                 offer.save()
 

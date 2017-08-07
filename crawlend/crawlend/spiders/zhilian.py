@@ -37,6 +37,7 @@ class ZhilianSpider(scrapy.Spider):
 
     ]
 
+    # 是否只爬当日数据
     if IS_ONLY_TODAY:
         for i in today_url:
             start_urls.append(i.format(KEYWORD))

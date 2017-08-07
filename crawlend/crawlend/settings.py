@@ -29,7 +29,7 @@ NEWSPIDER_MODULE = 'crawlend.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'crawlend (+http://www.yourdomain.com)'
+USER_AGENT = ''
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -67,9 +67,10 @@ ROBOTSTXT_OBEY = False
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
    # 'crawlend.middlewares.MyCustomDownloaderMiddleware': 543,
+   'crawlend.middlewares.UAMiddleWare': 546,
    'crawlend.middlewares.ProxyMiddleWare': 550
 }
-
+# DOWNLOAD_TIMEOUT = 10
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
 #EXTENSIONS = {

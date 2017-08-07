@@ -60,8 +60,15 @@ class CrawlendSpiderMiddleware(object):
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
 
+# 更改 UA 中间件
+class UAMiddleWare():
 
-# 更改代理和 UA 中间件
+    def process_request(self, request, spider):
+        request.headers.setdefault("User-Agent", get_header()['User-Agent'])
+        logger.debug("construct request with UA: {}".format(request.headers))
+
+
+# 更改代理中间件
 class ProxyMiddleWare():
 
     '''
@@ -80,23 +87,32 @@ class ProxyMiddleWare():
     '''
     def __init__(self):
         self.q = queue.Queue()
+        # self.q_https = queue.Queue()
         self.p = _Proxy()
+
 
     def _enqueue(self):
         proxies = self.p.extract(n=20)
         for i in proxies:
             self.q.put(i)
+        # proxies_https = self.p.extract(is_https=True, n=20)
+        # for i in proxies_https:
+        #     self.q_https.put(i)
 
     # 在请求中植入 UA 和 header
     def process_request(self, request, spider):
+
         self._check_remain_proxies()
-        request.headers.setdefault("User-Agent", get_header()['User-Agent'])
+
+        # if 'https' in request.url:
+        #     _proxy = self.q_https.get()
+        # else:
         _proxy = self.q.get()
         request.meta["proxy"] = _proxy[1]
         # 代理索引值
         request.meta["proxy_index"] = _proxy[0]
         request.meta["dont_redirect"] = True
-
+        request.meta['download_timeout'] = 5
         logger.debug("construct request with proxy: {}".format(request.meta["proxy"]))
 
     # 遇到问题重新构造请求
@@ -113,11 +129,16 @@ class ProxyMiddleWare():
 
     def process_response(self, request, response, spider):
 
+        # if 'liepin' in response.url:
+        #     return response
         logger.debug('current response status is {}'.format(response.status))
         # 请求成功
         if response.status == 200:
 
             addr = request.meta["proxy"]
+            # if 'https' in response.url:
+            #     self.q_https.put((request.meta["proxy_index"], addr))
+            # else:
             self.q.put((request.meta["proxy_index"], addr))
             return response
 
@@ -135,6 +156,9 @@ class ProxyMiddleWare():
 
         # 重新植入 UA 和 IP， 发起请求
         request.headers.setdefault("User-Agent", get_header()['User-Agent'])
+        # if 'https' in request.url:
+        #     _proxy = self.q_https.get()
+        # else:
         _proxy = self.q.get()
         request.meta["proxy"] = _proxy[1]
         # 代理索引值
