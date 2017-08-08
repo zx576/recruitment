@@ -17,6 +17,7 @@ sys.path.append(BASE_DIR)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
 django.setup()
 
+
 # only download today's information
 IS_ONLY_TODAY = False
 

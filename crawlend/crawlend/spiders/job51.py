@@ -7,6 +7,7 @@ import scrapy
 from scrapy.http import Request
 from ..items import CrawlendItem, FirmItem
 from ..settings import IS_ONLY_TODAY, KEYWORD
+from backend.models import Recruit
 
 
 class Job51Spider(scrapy.Spider):
@@ -14,22 +15,62 @@ class Job51Spider(scrapy.Spider):
     allowed_domains = ['jobs.51job.com']
     start_urls = []
     if IS_ONLY_TODAY:
-        pass
+        urls = [
+            'http://search.51job.com/list/020000%252C010000%252C030200%252C040000%252C080200,000000,0000,00,0,99,{},2,1.html'.format(
+                KEYWORD),
+            'http://search.51job.com/list/070200%252C090200%252C180200%252C200200%252C070300,000000,0000,00,0,99,{},2,1.html'.format(
+                KEYWORD)
+
+        ]
+
+    else:
+
+        urls = [
+            'http://search.51job.com/list/020000%252C010000%252C030200%252C040000%252C080200,000000,0000,00,9,99,{},2,1.html'.format(KEYWORD),
+            'http://search.51job.com/list/070200%252C090200%252C180200%252C200200%252C070300,000000,0000,00,9,99,{},2,1.html'.format(KEYWORD)
+
+        ]
+
+    start_urls += urls
+
 
 
     def parse(self, response):
-        pass
+
+        def check_href(url):
+            try:
+                r = Recruit.objects.get(url=url)
+                return False
+            except:
+                return True
+
+        soup = bs4.BeautifulSoup(response.body, 'lxml')
+        # 下一页
+        soup_next = soup.find('a', text='下一页')
+        if soup_next:
+            url = soup_next.get('href')
+            yield Request(url, callback=self.parse, dont_filter=True)
+
+        # 职位列表
+        soup_a = soup.find_all('a',
+                               attrs={'target': True, 'title': True, 'href': True, 'onmousedown': True, 'adid': False})
+        for item in soup_a:
+            href = item.get('href')
+            if check_href(href) and href.startswith('http'):
+                yield Request(href, callback=self.parse_detail)
 
     def parse_detail(self, response):
 
+        # try:
         item = {}
         offer = CrawlendItem()
         firm = FirmItem()
-        soup = bs4.BeautifulSoup(response.url, 'lxml')
+        soup = bs4.BeautifulSoup(response.body, 'lxml')
+        offer['url'] = response.url
+        offer['resource'] = '前程无忧'
         # print(soup.prettify())
         # 职位名, 公司信息
         soup_cn = soup.find('div', class_='cn')
-
         offer['name'] = soup_cn.find('h1').get_text(strip=True)
         offer['work_place'] = soup_cn.find('span', class_='lname').get_text(strip=True)
         # 薪水
@@ -134,7 +175,9 @@ class Job51Spider(scrapy.Spider):
         offer.setdefault('degree', '6')
         offer.setdefault('release', today)
         # 职位诱惑
-        offer['temptation'] = soup_job_qua.find('p', class_='t2').get_text(';', strip=True)
+        soup_r = soup_job_qua.find('p', class_='t2')
+        if soup_r:
+            offer['temptation'] = soup_r.get_text(';', strip=True)
         soup_qua = soup.find('div', class_='bmsg job_msg inbox')
         # 职位描述
         offer['description'] = soup_qua.get_text(strip=True).replace('举报', '').replace('分享', '')
@@ -156,3 +199,5 @@ class Job51Spider(scrapy.Spider):
         item['offer'] = offer
         item['firm'] = firm
         yield item
+        # except:
+        #     yield Request(response.url, callback=self.parse_detail, dont_filter=True)
