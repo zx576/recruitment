@@ -52,8 +52,8 @@ class ZhilianSpider(scrapy.Spider):
         soup = bs4.BeautifulSoup(response.body, 'lxml')
         next_page = soup.find('a', class_='next-page')
         href = next_page.get('href', None)
-        # if href:
-        #     yield scrapy.Request(href, callback=self.parse)
+        if href:
+             yield scrapy.Request(href, callback=self.parse)
 
         soup_tr = soup.find_all('tr', class_=False, style=False)
         for tr in soup_tr[1:]:

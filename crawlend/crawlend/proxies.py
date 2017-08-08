@@ -11,16 +11,16 @@ class _Proxy:
         self.offset = 0
         self.offset_https = 0
         self.p = Proxy.objects.filter(is_alive=True)
-        self.p_https = self.p.filter(head='https')
+        # self.p_https = self.p.filter(head='https')
         self.remain = len(self.p)
-        self.remain_https = len(self.p_https)
+        # self.remain_https = len(self.p_https)
         self._check()
 
     def _check(self):
         if self.remain < 20:
             self._get_proxies()
-        if self.remain_https < 3:
-            self._get_proxies(is_https=True)
+        # if self.remain_https < 3:
+        #    self._get_proxies(is_https=True)
 
     # 获取代理
     def _get_proxies(self, is_https=False):
