@@ -1,4 +1,4 @@
 .idea
 *.pyc
 __pycache__
-
+server_settings.py
