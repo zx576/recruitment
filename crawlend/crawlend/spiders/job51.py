@@ -46,18 +46,22 @@ class Job51Spider(scrapy.Spider):
 
         soup = bs4.BeautifulSoup(response.body, 'lxml')
         # 下一页
+
         soup_next = soup.find('a', text='下一页')
+        if not soup_next:
+            yield Request(response.url, callback=self.parse, dont_filter=True, headers={'Referer': 'http://search.51job.com/'})
         if soup_next:
+
             url = soup_next.get('href')
-            yield Request(url, callback=self.parse, dont_filter=True)
+            yield Request(url, callback=self.parse, dont_filter=True, headers={'Referer': 'http://search.51job.com/'})
 
         # 职位列表
-        soup_a = soup.find_all('a',
-                               attrs={'target': True, 'title': True, 'href': True, 'onmousedown': True, 'adid': False})
-        for item in soup_a:
-            href = item.get('href')
-            if check_href(href) and href.startswith('http'):
-                yield Request(href, callback=self.parse_detail)
+        # soup_a = soup.find_all('a',
+        #                        attrs={'target': True, 'title': True, 'href': True, 'onmousedown': True, 'adid': False})
+        # for item in soup_a:
+        #     href = item.get('href')
+        #     if check_href(href) and href.startswith('http'):
+        #         yield Request(href, callback=self.parse_detail, dont_filter=True, headers={'Referer': 'http://search.51job.com/'})
 
     def parse_detail(self, response):
 
