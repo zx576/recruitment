@@ -53,16 +53,18 @@ class ZhilianSpider(scrapy.Spider):
         next_page = soup.find('a', class_='next-page')
         if not next_page:
             yield Request(response.url, callback=self.parse, dont_filter=True, headers={'Referer': 'http://sou.zhaopin.com/'})
-        href = next_page.get('href', None)
-        if href:
-            yield scrapy.Request(href, callback=self.parse, dont_filter=True, headers={'Referer': 'http://sou.zhaopin.com/'})
+        else:
 
-        # soup_tr = soup.find_all('tr', class_=False, style=False)
-        # for tr in soup_tr[1:]:
-        #     tag_a = tr.find('a')
-        #     href = tag_a.get('href', None)
-        #     if href.startswith('http'):
-        #         yield Request(href, callback=self.parse_detail, dont_filter=True)
+            href = next_page.get('href', None)
+            if href:
+                yield scrapy.Request(href, callback=self.parse, dont_filter=True, headers={'Referer': 'http://sou.zhaopin.com/'})
+
+            soup_tr = soup.find_all('tr', class_=False, style=False)
+            for tr in soup_tr[1:]:
+                tag_a = tr.find('a')
+                href = tag_a.get('href', None)
+                if href.startswith('http'):
+                    yield Request(href, callback=self.parse_detail, dont_filter=True, headers={'Referer': 'http://sou.zhaopin.com/'})
 
 
     def parse_detail(self, response):
@@ -78,7 +80,7 @@ class ZhilianSpider(scrapy.Spider):
         soup_div_1 = soup.find('div', class_='inner-left fl')
 
         if soup_div_1 is None:
-            yield Request(response.url, callback=self.parse_detail, dont_filter=True)
+            yield Request(response.url, callback=self.parse_detail, dont_filter=True, headers={'Referer': 'http://sou.zhaopin.com/'})
             return
 
         offer['name'] = soup_div_1.h1.string

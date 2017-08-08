@@ -31,18 +31,22 @@ class LiepinSpider(scrapy.Spider):
         soup = bs4.BeautifulSoup(response.body, 'lxml')
         # 下一页
         soup_next = soup.find('a', text='下一页')
-        next_p = soup_next.get('href')
-        if next_p.startswith('http'):
-            yield Request(next_p, callback=self.parse)
+        if soup_next:
+            next_p = soup_next.get('href')
+            if next_p.startswith('http'):
+                yield Request(response.url, callback=self.parse, dont_filter=True,
+                              headers={'Referer': 'https://www.liepin.com/'})
 
-        # 解析列表
-        soup_job_lst = soup.find('ul', class_='sojob-list')
-        soup_job_li = soup_job_lst.find_all('li')
-        for li in soup_job_li:
-            tag_a = li.find('a', attrs={'data-promid': True})
-            href = tag_a.get('href')
-            if href.startswith('http'):
-                yield Request(href, callback=self.parse_detail)
+            # 解析列表
+            soup_job_lst = soup.find('ul', class_='sojob-list')
+            soup_job_li = soup_job_lst.find_all('li')
+            for li in soup_job_li:
+                tag_a = li.find('a', attrs={'data-promid': True})
+                href = tag_a.get('href')
+                if href.startswith('http'):
+                    yield Request(href, callback=self.parse_detail, headers={'Referer': 'https://www.liepin.com/'})
+        else:
+            yield Request(response.url, callback=self.parse, dont_filter=True, headers={'Referer': 'https://www.liepin.com/'})
 
 
     def parse_detail(self, responce):
