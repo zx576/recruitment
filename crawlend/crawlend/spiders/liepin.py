@@ -34,7 +34,7 @@ class LiepinSpider(scrapy.Spider):
         if soup_next:
             next_p = soup_next.get('href')
             if next_p.startswith('http'):
-                yield Request(response.url, callback=self.parse, dont_filter=True,
+                yield Request(next_p, callback=self.parse, dont_filter=True,
                               headers={'Referer': 'https://www.liepin.com/'})
 
             # 解析列表
@@ -66,7 +66,9 @@ class LiepinSpider(scrapy.Spider):
         # 薪水
         offer['is_annual_salary'] = True
         salary_p = re.compile(r'(\d+)-(\d+)万')
-        soup_salary = soup_div_info.find('p', class_='job-item-title').get_text(strip=True)
+        soup_salary = soup_div_info.find('p', class_='job-item-title') or soup_div_info.find('p',
+                                                                                             class_='job-main-title')
+        soup_salary = soup_salary.get_text(strip=True)
         salary_r = re.findall(salary_p, soup_salary)
         if salary_r:
             r = salary_r[0]
@@ -95,7 +97,8 @@ class LiepinSpider(scrapy.Spider):
             offer['release'] = today
 
         # 其他要求
-        soup_qua = soup_div_info.find('div', class_="job-qualifications")
+        soup_qua = soup_div_info.find('div', class_="job-qualifications") or soup_div_info.find('div',
+                                                                                                class_='resume clearfix')
         deg, exp = [i for i in soup_qua.stripped_strings][:2]
         # 学历
         if '本科' in deg:
@@ -120,10 +123,12 @@ class LiepinSpider(scrapy.Spider):
 
         # 职位诱惑
         soup_y = soup.find('div', class_="tag-list")
-        offer['temptation'] = soup_y.get_text(';', strip=True)
+        if soup_y:
+            offer['temptation'] = soup_y.get_text(';', strip=True)
 
         # 职位职责
-        soup_div_job = soup.find('div', class_="job-item main-message")
+        soup_div_job = soup.find('div', class_="job-item main-message") or soup.find('div',
+                                                                                     class_='job-main main-message')
         offer['description'] = soup_div_job.get_text(strip=True)
         # 企业信息
         soup_div_firm = soup.find('div', class_='job-item main-message noborder')
@@ -134,8 +139,23 @@ class LiepinSpider(scrapy.Spider):
         # 公司名
         soup_firm_name = soup.find('div', class_='title-info')
         firm['firm_name'] = soup_firm_name.h3.get_text(strip=True)
+        indus, scale, nature = '', '', ''
         # 公司行业, 规模， 性质
-        indus, scale, nature = [i for i in soup_firm.ul.stripped_strings][:3]
+        if not soup_firm:
+            soup_firm_lst = soup.find_all('div', class_='content content-word')
+            for i in soup_firm_lst:
+                if i.find('ul'):
+                    soup_li = i.ul.find_all('li')
+                    for li in soup_li:
+                        key, value = [i for i in li.stripped_strings]
+                        if '行业' in key:
+                            indus = value
+                        elif '性质' in key:
+                            natue = value
+                        elif '规模' in key:
+                            scale = value
+        else:
+            indus, scale, nature = [i for i in soup_firm.ul.stripped_strings][:3]
         firm['firm_industry'] = indus
 
         # 规模
@@ -159,7 +179,8 @@ class LiepinSpider(scrapy.Spider):
         elif '上市' in nature:
             firm['firm_nature'] = '7'
 
-        firm['firm_location'] = soup_firm.p.get_text()
+        if soup_firm:
+            firm['firm_location'] = soup_firm.p.get_text()
 
         soup_map = soup.find('div', class_='right-post-map')
         if soup_map:
