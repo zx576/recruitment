@@ -132,8 +132,8 @@ class LiepinSpider(scrapy.Spider):
 
         soup_firm = soup.find('div', class_='company-infor')
         # 公司名
-        soup_firm_name = soup_firm.find('a', class_='word')
-        firm['firm_name'] = soup_firm_name.get('title')
+        soup_firm_name = soup.find('div', class_='title-info')
+        firm['firm_name'] = soup_firm_name.h3.get_text(strip=True)
         # 公司行业, 规模， 性质
         indus, scale, nature = [i for i in soup_firm.ul.stripped_strings][:3]
         firm['firm_industry'] = indus
