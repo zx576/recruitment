@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^offer/admin/', admin.site.urls),
     url(r'^offer/', include('backend.urls', namespace='backend', app_name='backend'))
+
 ]
