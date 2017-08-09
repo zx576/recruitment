@@ -24,8 +24,9 @@ class LiepinSpider(scrapy.Spider):
     if IS_ONLY_TODAY:
         start_urls.append('https://www.liepin.com/zhaopin/?pubTime=1&key={}'.format(KEYWORD))
     else:
-        start_urls.append('https://www.liepin.com/zhaopin/?key={}'.format(KEYWORD))
-
+        start_urls.append('https://www.liepin.com/zhaopin/?ckid=3f43d0b1382876af&fromSearchBtn=2&degradeFlag=0&init=-1&key={}&headckid=3f43d0b1382876af&curPage=17'.format(KEYWORD))
+# https://www.liepin.com/zhaopin/?ckid=3f43d0b1382876af&fromSearchBtn=2&degradeFlag=0&init=-1&key=python&headckid=3f43d0b1382876af&curPage=1
+# https://www.liepin.com/zhaopin/?key={}
     def parse(self, response):
 
         soup = bs4.BeautifulSoup(response.body, 'lxml')
@@ -99,6 +100,7 @@ class LiepinSpider(scrapy.Spider):
         # 其他要求
         soup_qua = soup_div_info.find('div', class_="job-qualifications") or soup_div_info.find('div',
                                                                                                 class_='resume clearfix')
+
         deg, exp = [i for i in soup_qua.stripped_strings][:2]
         # 学历
         if '本科' in deg:
@@ -127,9 +129,9 @@ class LiepinSpider(scrapy.Spider):
             offer['temptation'] = soup_y.get_text(';', strip=True)
 
         # 职位职责
-        soup_div_job = soup.find('div', class_="job-item main-message") or soup.find('div',
-                                                                                     class_='job-main main-message')
-        offer['description'] = soup_div_job.get_text(strip=True)
+        soup_div_job = soup.find('div', class_="job-item main-message")  or soup.find('div', class_='job-main main-message')
+        if soup_div_job:
+            offer['description'] = soup_div_job.get_text(strip=True)
         # 企业信息
         soup_div_firm = soup.find('div', class_='job-item main-message noborder')
         if soup_div_firm:
