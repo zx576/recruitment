@@ -1,14 +1,30 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+     <!--<img src="./assets/pics/logo.png">-->
+    <!--<router-view></router-view>-->
+    <!-- <base-structure></base-structure> -->
+    <salary-chart></salary-chart>
   </div>
+
 </template>
 
 <script>
+// import BaseStructure from './components/Structure.vue'
+import SalaryChart from './components/SalaryChart.vue'
 export default {
-  name: 'app'
+//  name: 'app',
+  data () {
+    return {
+      author: 'zhouxin'
+    }
+  },
+  components: {
+    // BaseStructure,
+    SalaryChart
+   }
 }
+// document.documentElement.style.overflowY = 'hidden'
+// document.body.style.overlfow='hidden'
 </script>
 
 <style>

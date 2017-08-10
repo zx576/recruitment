@@ -18,11 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^offer/admin/', admin.site.urls),
-<<<<<<< HEAD
     url(r'^offer/', include('backend.urls', namespace='backend', app_name='backend')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-=======
-    url(r'^offer/', include('backend.urls', namespace='backend', app_name='backend'))
 
->>>>>>> dev
 ]

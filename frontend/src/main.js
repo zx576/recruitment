@@ -3,6 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import $ from 'jquery'
+import './assets/css/bootstrap.min.css'
+import './assets/js/bootstrap.min'
+import './val'
+import echarts from 'echarts'
 
 Vue.config.productionTip = false
 
