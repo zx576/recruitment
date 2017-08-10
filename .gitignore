@@ -2,3 +2,6 @@
 *.pyc
 __pycache__
 server_settings.py
+*.sock
+deploy
+/static/
