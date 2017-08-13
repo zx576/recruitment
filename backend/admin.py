@@ -12,6 +12,7 @@ class FirmResource(resources.ModelResource):
 class RecruitResource(resources.ModelResource):
     class Meta:
         model = Recruit
+        exclude = ('release',)
 
 
 @admin.register(Proxy)

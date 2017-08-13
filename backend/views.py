@@ -8,7 +8,7 @@ from .serializers import ProxySerializer
 
 
 def index(request):
-    return render(request, 'index.html', {'key': 'value'})
+    return render(request, 'backend/base.html', {'key': 'value'})
 
 @csrf_exempt
 def proxy_list(request):

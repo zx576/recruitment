@@ -1,12 +1,13 @@
 from django.db import models
+import datetime
 
+today = datetime.date.today()
 
 class Recruit(models.Model):
 
     belong = models.ForeignKey('Firm', verbose_name='所属公司', default='')
     resource = models.CharField('信息来源', max_length=255)
     url = models.URLField('信息链接', default='')
-
     name = models.CharField('职位名', max_length=255)
     salary_from = models.IntegerField('工资低点', default=0)
     salary_to = models.IntegerField('工资高点', default=0)
@@ -29,7 +30,7 @@ class Recruit(models.Model):
     degree = models.CharField('学历要求', choices=CHOICES, max_length=255)
 
     # 职位诱惑有多个，以分号隔开
-    temptation = models.CharField('职位诱惑', max_length=255)
+    temptation = models.CharField('职位诱惑', max_length=255)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
     release = models.DateField('发布日期')
     description = models.TextField('职位描述')
     member = models.IntegerField('招聘人数', default=-1)
@@ -38,6 +39,9 @@ class Recruit(models.Model):
     is_alive = models.BooleanField('是否有效', default=True)
     created_time = models.DateTimeField('创建日期', auto_now_add=True)
     modified_time = models.DateTimeField('修改日期', auto_now=True)
+
+    # patch
+    is_add = models.BooleanField('是否添加', default=False)
 
     def __str__(self):
         return self.name
@@ -64,6 +68,7 @@ class Firm(models.Model):
     firm_nature = models.CharField('企业性质', choices=CHOICES2, default='5', max_length=255)
     firm_industry = models.CharField('企业行业', max_length=255)
     firm_location = models.CharField('公司地址', max_length=255)
+    firm_place = models.CharField('公司省市', max_length=255, default='')
 
     # 不用 URLField 是因为一些招聘信息中没有此信息
     # 同时给出的地址可能是相对地址
@@ -76,6 +81,9 @@ class Firm(models.Model):
     is_alive = models.BooleanField('是否有效', default=True)
     created_time = models.DateTimeField('创建日期', auto_now_add=True)
     modified_time = models.DateTimeField('修改日期', auto_now=True)
+
+    # patch
+    is_add = models.BooleanField('是否添加', default=False)
 
 
 

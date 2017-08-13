@@ -1,16 +1,7 @@
-<template lang="html">
-
-<div class="box" id='salary' v-bind:style="{height: displayH + 'px', width: displayW + 'px'}">
-
-</div>
-</template>
-
-<script>
-export default {
-  mounted: function(){
-    var echarts = require('echarts');
-    // console.log('sabx');
-    var myChart = echarts.init(document.getElementById('salary'));
+/**
+ * Created by zx on 17-8-11.
+ */
+var myChart = echarts.init(document.getElementById('salary'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -70,7 +61,7 @@ export default {
                 center: ['75%', '25%'],
                 radius: [0, '30%']
             }
-          ],
+          ]
           },
           options: [
             {
@@ -85,8 +76,8 @@ export default {
                     {name: 'a', value: 10},
                     {name: 'f', value: 10},
                     {name: 'g', value: 10},
-                    {name: 'j', value: 10},
-                  ],
+                    {name: 'j', value: 10}
+                  ]
                 }
               ]
             },
@@ -119,29 +110,13 @@ export default {
                     {name: 'a', value: 10},
                     {name: 'f', value: 10},
                     {name: 'g', value: 10},
-                    {name: 'j', value: 10},
-                  ],
+                    {name: 'j', value: 10}
+                  ]
                 }
               ]
-            },
+            }
           ]
         };
 
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
-  },
-
-  data () {
-    return {
-      displayH: (document.documentElement.clientHeight) * 0.7,
-      displayW: (document.documentElement.clientWidth) * 0.7
-    }
-  }
-}
-</script>
-
-<style scoped>
-.box{
-
-}
-</style>

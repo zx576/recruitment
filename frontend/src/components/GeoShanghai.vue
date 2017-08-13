@@ -16,7 +16,7 @@
           <span class='white'>|</span>
           <a href="#" >
             <span class='glyphicon glyphicon-th-list white' ></span>
-            <span class='white'>薪水报告</span>
+            <span class='white'>上海职位地点报告</span>
           </a>
         </div>
       </div>
@@ -25,7 +25,7 @@
       <div class="">
         <!-- 表显示 -->
         <div class="display center-block">
-            <salary-box></salary-box>
+            <shanghai-chart></shanghai-chart>
         </div>
       </div>
     </div>
@@ -38,26 +38,18 @@
 </template>
 
 <script>
-import SalaryBox from './charts/SalaryBox'
+import ShanghaiChart from './charts/ShanghaiChart'
 export default {
-  mounted: function () {
-    var that = this
-    $.ajax({
-      url: domain + 'offer/api',
-      method: 'GET',
-      success: function (data) {
-        console.log(data);
-      }
-    })
-  },
+  // mounted: function () {
+  //
+  // },
   data () {
     return {
       screenHeight: document.documentElement.clientHeight
     }
   },
   components: {
-    // BaseStructure,
-    SalaryBox
+    ShanghaiChart
    }
 }
 </script>
@@ -65,11 +57,12 @@ export default {
 <style scoped>
 
 .bg{
-      background-image: url('../assets/pics/lani.jpg');
+      /*background-image: url('../assets/pics/lani.jpg');
       background-repeat:no-repeat;
       background-attachment:fixed;
       background-position:center;
-      background-size: cover;
+      background-size: cover;*/
+      background-color: #336699;
       z-index:-1;
       padding: 20px, 20px;
 }
