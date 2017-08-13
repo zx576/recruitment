@@ -77,8 +77,9 @@ class LagouSpider(scrapy.Spider):
         # 地点/经验/学历/
 
         soup_req = soup.find('dd', class_='job_request').find_all('span', class_=False, text=True)
-        print(soup_req)
+        # print(soup_req)
         offer['work_place'] = soup_req[0].string.replace('/', '').strip()
+        firm['firm_place'] = offer['work_place']
 
         # 工作经验
         exp = soup_req[1].string

@@ -78,6 +78,7 @@ class Job51Spider(scrapy.Spider):
         soup_cn = soup.find('div', class_='cn')
         offer['name'] = soup_cn.find('h1').get_text(strip=True)
         offer['work_place'] = soup_cn.find('span', class_='lname').get_text(strip=True)
+        firm['firm_place'] = offer['work_place']
         # 薪水
         p_salary_1 = re.compile(r'(\d+\.?\d*)-(\d+\.?\d*)[万千]')
         str_salary = soup_cn.find('strong').get_text(strip=True)
@@ -195,6 +196,7 @@ class Job51Spider(scrapy.Spider):
         # 公司简介
         soup_intro = soup.find('div', class_='tmsg inbox')
         firm['firm_introduction'] = soup_intro.get_text(strip=True)
+
 
         #
         # print([i for i in soup_qua_div.stripped_strings])

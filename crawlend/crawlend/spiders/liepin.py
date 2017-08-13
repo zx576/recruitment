@@ -85,6 +85,7 @@ class LiepinSpider(scrapy.Spider):
         soup_basic = soup_div_info.find('p', class_="basic-infor")
         loc, date_ = [i for i in soup_basic.stripped_strings]
         offer['work_place'] = loc
+        firm['firm_place'] = loc
         # 发布时间
         today = datetime.date.today()
         date_p = re.compile(r'\d+-\d+\d+')
@@ -157,7 +158,19 @@ class LiepinSpider(scrapy.Spider):
                         elif '规模' in key:
                             scale = value
         else:
-            indus, scale, nature = [i for i in soup_firm.ul.stripped_strings][:3]
+            # indus, scale, nature = [i for i in soup_firm.ul.stripped_strings][:3]
+            soup_li = soup_firm.ul.find_all('li')
+            for li in soup_li:
+                val = li.get_text(strip=True)
+                if '行业' in val:
+                    indus = val.split('：')[-1]
+                elif '规模' in val:
+                    scale = val.split('：')[-1]
+                elif '性质' in val:
+                    nature = val.split('：')[-1]
+                elif '地址' in val:
+                    firm['firm_location'] = val.split('：')[-1]
+
         firm['firm_industry'] = indus
 
         # 规模
@@ -181,7 +194,7 @@ class LiepinSpider(scrapy.Spider):
         elif '上市' in nature:
             firm['firm_nature'] = '7'
 
-        if soup_firm:
+        if soup_firm and not firm['firm_location']:
             firm['firm_location'] = soup_firm.p.get_text()
 
         soup_map = soup.find('div', class_='right-post-map')

@@ -124,6 +124,7 @@ class ZhilianSpider(scrapy.Spider):
 
             elif key == '工作地点：':
                 offer['work_place'] = val
+                firm['firm_place'] = val
 
             elif key == '发布日期：':
 
