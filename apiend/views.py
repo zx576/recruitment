@@ -18,4 +18,38 @@ from django.shortcuts import render
         }
 }
 
+地理位置
+
+{
+    '北京': [
+    {value: [lng, lat, count]},
+    {value: [lng, lat, count]},
+    {value: [lng, lat, count]},
+    ],
+    
+    '上海': [
+    {value: [lng, lat, count]},
+    {value: [lng, lat, count]},
+    {value: [lng, lat, count]},
+    ]
+
+}
+
+词云
+
+[
+    {'name': xxx, 'value': xxx},
+    {'name': xxx, 'value': xxx},
+    {'name': xxx, 'value': xxx},
+]
+
+公司规模
+
+[
+    {name: '0-50', value: 0},
+    {name: '0-50', value: 0},
+    {name: '0-50', value: 0},
+]
+
+
 '''
