@@ -19,7 +19,7 @@ django.setup()
 
 
 # only download today's information
-IS_ONLY_TODAY = False
+IS_ONLY_TODAY = True
 
 # the keywords you want to search
 KEYWORD = 'python'
