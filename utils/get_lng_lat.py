@@ -5,8 +5,10 @@
 # 根据公司的地址，获取其所在的经纬度
 
 import os, django
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
+import sys
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.server_settings")
 django.setup()
 
 import requests

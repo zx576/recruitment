@@ -5,8 +5,10 @@
 # 根据 Recruit 中的职位信息的工作地点，补充 Firm 中的地理位置信息
 
 import os, django
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
+import sys
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.server_settings")
 django.setup()
 
 from backend.models import Recruit, Firm
