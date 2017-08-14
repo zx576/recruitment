@@ -11,9 +11,9 @@ class _Proxy:
         self.offset = 0
         self.offset_https = 0
         self.p = Proxy.objects.filter(is_alive=True)
-        # self.p_https = self.p.filter(head='https')
+        self.p_https = self.p.filter(head='https')
         self.remain = len(self.p)
-        # self.remain_https = len(self.p_https)
+        self.remain_https = len(self.p_https)
         self._check()
 
     def _check(self):
@@ -63,8 +63,8 @@ class _Proxy:
         else:
             # 检查剩余 ip
             if self.remain <= 20:
-                self.offset += 20
                 self._get_proxies()
+                self.offset += 20
             proxies = iter(self.p)
             n = n if 0 < n < self.remain else self.remain
 
@@ -88,3 +88,7 @@ class _Proxy:
         query.is_alive = False
         query.save()
         self.remain -= 1
+
+if __name__ == '__main__':
+    p = _Proxy()
+    p._get_proxies()

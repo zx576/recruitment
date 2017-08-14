@@ -100,3 +100,17 @@ class Proxy(models.Model):
 
     def __str__(self):
         return self.addr
+
+# 已经分析好的数据,可以直接发到前端使用
+# 分析好后台数据, dumps 之后直接存入数据库
+class ShapedData(models.Model):
+
+    salary = models.TextField('薪水分析')
+    welfare = models.TextField('职位福利分析')
+    require = models.TextField('职位方向')
+    location = models.TextField('地理位置')
+    scale = models.TextField('公司规模')
+    degree = models.TextField('学历分布')
+
+    def __str__(self):
+        return self.id

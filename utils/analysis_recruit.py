@@ -140,7 +140,12 @@ class AnaRecruit:
         # 统计职位诱惑词频前 20 位
         c = Counter(self.tags)
         res = c.most_common(20)
-        return res
+        lst = []
+        for item in res:
+            dct = {}
+            dct['name'], dct['value'] = item
+            lst.append(dct)
+        return lst
 
     def get_req(self):
 
@@ -152,13 +157,16 @@ class AnaRecruit:
 
         keywords = ['运维', '后端', '数据分析', '爬虫']
 
-        dct = {}
+        lst = []
         for i in keywords:
+            dct = {}
             p = re.compile(r'{}'.format(i))
             count = len(re.findall(p,self.__require))
-            dct[i] = count
+            dct['value'] = count
+            dct['name'] = i
+            lst.append(dct)
 
-        return dct
+        return lst
 
     
 
@@ -166,7 +174,7 @@ class AnaRecruit:
 
 if __name__ == '__main__':
 
-    a = Analysis()
+    a = AnaRecruit()
     r = a.r_main()
     print(r)
     r2 = a.get_tags()

@@ -58,7 +58,13 @@ class AnaFirm:
                         val = scale_dct.setdefault(s, 0)
                         scale_dct[s] = val + 1
 
-        return [scale_dct, ll_dct]
+        scale_lst = []
+        for k,v in scale_dct.items():
+            dct = {}
+            dct['name'],dct['value'] = k,v
+            scale_lst.append(dct)
+
+        return [scale_lst, ll_dct]
 
 if __name__ == '__main__':
     a = AnaFirm()
