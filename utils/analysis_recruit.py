@@ -7,7 +7,7 @@ import os, django
 import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.server_settings")
 django.setup()
 
 from collections import Counter
@@ -294,19 +294,19 @@ class AnaRecruit:
         skill = self.get_keywords()
         scale, ll = self.f_main()
 
-        print(salary)
-        print(require)
-        print(skill)
-        print(scale)
-        print(ll)
+        # print(salary)
+        # print(require)
+        # print(skill)
+        # print(scale)
+        # print(ll)
 
-        # ShapedData.objects.create(
-        #     salary=json.dumps(salary),
-        #     skill=json.dumps(skill),
-        #     require=json.dumps(require),
-        #     scale=json.dumps(scale),
-        #     location=json.dumps(ll)
-        # )
+        ShapedData.objects.create(
+             salary=json.dumps(salary),
+             skill=json.dumps(skill),
+             require=json.dumps(require),
+             scale=json.dumps(scale),
+             location=json.dumps(ll)
+         )
 
 if __name__ == '__main__':
 

@@ -3,6 +3,8 @@
 
 import requests
 from backend.models import Proxy
+import time
+
 
 class _Proxy:
 
@@ -26,12 +28,15 @@ class _Proxy:
     def _get_proxies(self, is_https=False):
 
         # 获取 ip
-        if is_https:
-            url = self.url + '&offset={0}&head=https'.format(self.offset_https)
-        else:
-            url = self.url + '&offset={}'.format(self.offset)
+        # if is_https:
+        #    url = self.url + '&offset={0}&head=https'.format(self.offset_https)
+        #else:
+        url = self.url + '&offset={}'.format(self.offset)
+        print(url)
         req = requests.get(url)
+        # print(req.status)
         raw = req.json()
+        print(raw)
         for i in raw['proxies']:
             try:
                 Proxy.objects.get(addr=i['http'])
@@ -63,6 +68,7 @@ class _Proxy:
         else:
             # 检查剩余 ip
             if self.remain <= 20:
+                time.sleep(5)
                 self._get_proxies()
                 self.offset += 20
             proxies = iter(self.p)

@@ -15,7 +15,7 @@ from backend.models import Recruit, Firm
 
 def add_loc():
 
-    query = Recruit.objects.filter(is_add=False)
+    query = Recruit.objects.filter(is_add=True)
     for item in query:
 
         work_place = item.work_place
