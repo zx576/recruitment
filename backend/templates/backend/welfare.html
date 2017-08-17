@@ -1,7 +1,7 @@
 
 <div>
     <!--显示主页  -->
-    <div class="bg shanghai-bgc">
+    <div class="bg skill-bgc">
       <!-- 顶栏-文字-控制按钮 -->
       <div class="top-block">
         <div class="top-left">
@@ -14,7 +14,7 @@
           <a href="/" class='c-mainpage'>回到主页</a>
           <span class='white'>|</span>
           <a href="#" >
-            <span class='white'>Python职位福利</span>
+            <span class='white'>Python职位技能</span>
           </a>
         </div>
       </div>
@@ -23,12 +23,22 @@
       <div class="">
         <!-- 表显示 -->
         <div class="display center-block">
-            <div class="box" id='welfare'>
+            <div class="box center-block" id='welfare'>
+        </div>
+        <div class="display-ins center-block">
+        <p class="h3">说明: </p>
+        <p>本图包含了Python职位信息中的一些职位技能</p>
+        <p class="h3">简单分析: </p>
+        <p>1. 技能关键词分布较广,总的来说分为几个部分: 操作系统-编程语言-数据库端-计算机基础(数据结构/设计模式)-网页服务器端-前端-测试-大数据 等</p>
+        <p>2. 操作系统方面 linux 占比最高, 如果平时使用 windows ,也需要花点时间学习一下 linux</p>
+        <p>3. 大部分职位要求求职者除了熟练 Python 之外,还需要了解一门或多门其他语言.</p>
+        <p>4. 在学习 Python 的同时,数据库学习也不能落下,不管是 sql 还是 nosql ,你得熟悉一门,并且了解另一种</p>
+        <p>5. 学习 web 开发的同学注意了,django 和 flask 框架为目前招聘主流,同时你仍需要了解 html-css-js 等前端知识</p>
         </div>
       </div>
     </div>
-    {% load static %}
-    <script src="{% static 'backend/js/echarts-wordcloud.min.js' %}"></script>
-    <script src="{% static 'backend/js/charts/welfare.js' %}"></script>
+{#    {% load static %}#}
+
+{#    <script src="{% static 'backend/js/charts/welfare.js' %}"></script>#}
 </div>
 </div>

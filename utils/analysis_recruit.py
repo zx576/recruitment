@@ -11,10 +11,10 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
 django.setup()
 
 from collections import Counter
-import jieba
+import json
 import re
 
-from backend.models import Recruit, Firm
+from backend.models import Recruit, Firm, ShapedData
 
 class AnaRecruit:
 
@@ -23,13 +23,16 @@ class AnaRecruit:
         self.cities = ['北京', '上海', '广州', '深圳', '杭州', '苏州', '西安', '成都', '天津', '南京']
         self.tags = []
         self.__require = ''
+        self.exclude = ['and', 'of', 'in', 'to', 'the', 'with', 'a', 'or', 'for', 'is', 'r', 'on', 'be', 'data',
+                        'it', 'as', 'team', 'work', 'etl', 's', 'good', 'years', 'etc', 'will', 'plus']
+        self.scale = [0, 50, 100, 500, 1000, 5000, 10000, 100000]
 
     def r_main(self):
 
-        r_query = Recruit.objects.all()
+        r_query = Recruit.objects.all() #filter(work_place='北京')
         salary_dct = {}
 
-
+        count = 0
         for item in r_query:
 
             work_place = item.work_place
@@ -43,10 +46,19 @@ class AnaRecruit:
             city_dct = salary_dct.setdefault(wp, {})
             exp_f = item.years_of_work_from
             exp_t = item.years_of_work_to
+
+            if exp_f > exp_t:
+                exp_f, exp_t = exp_t, exp_f
+
             salart_f = item.salary_from
             salart_t = item.salary_to
+
+            if salart_f > salart_t:
+                salart_f, salart_t = salart_t, salart_f
             is_annual = item.is_annual_salary
             is_neg = item.is_negotiable
+            if is_neg:
+                count += 1
             # 经验标记
             token_1 = []
             token_2 = []
@@ -68,72 +80,151 @@ class AnaRecruit:
                 else:
                     # 算年薪
                     if is_annual:
-                        token_1.append(salart_f // 12)
+                        # token_1.append(salart_f // 12)
+                        # token_1.append(salart_t * 10000 // 12)
+                        token_1.append((salart_f+salart_t) * 5000 // 12)
                     else:
-                        token_1.append(salart_f)
+                        # token_1.append(salart_f)
+                        # token_1.append(salart_t)
+                        token_1.append((salart_f + salart_t) // 2)
 
             elif exp_f != 0 and exp_t != 50:
-                token_1.append(str(exp_f))
-                token_2.append(str(exp_t))
+                token_1.append(exp_f)
+                token_2.append(exp_t)
 
                 if is_neg:
                     token_1.append(-1)
+                    token_2.append(-1)
                 else:
                     if is_annual:
-                        token_1.append(salart_f // 12)
-                        token_2.append(salart_t // 12)
+                        token_1.append(salart_f * 10000 // 12)
+                        token_2.append(salart_t *10000 // 12)
 
                     else:
                         token_1.append(salart_f)
                         token_2.append(salart_t)
 
-            else:
-                token_1.append(str(exp_f))
+            elif exp_f != 0 and exp_t == 50:
+                token_1.append(exp_f)
                 if is_neg:
                     token_1.append(-1)
                 else:
                     if is_annual:
-                        token_1.append(salart_f//12)
-
+                        # token_1.append(salart_f // 12)
+                        # token_1.append(salart_t * 10000 // 12)
+                        token_1.append((salart_f + salart_t) * 5000 // 12)
                     else:
-                        token_1.append(salart_f)
+                        # token_1.append(salart_f)
+                        # token_1.append(salart_t)
+                        token_1.append((salart_f + salart_t) // 2)
 
             standard = [5000, 10000, 15000, 20000, 25000, 30000, 2**31]
 
-            if len(token_1) == 2:
-                # print(token_1)
-                # 处理 token 1
-                if token_1[0] == '不限' or int(token_1[0]) <= 5:
-                    exp_n = city_dct.setdefault(token_1[0], [0 for i in range(7)])
-                elif 5 < int(token_1[0]) <= 10:
-                    exp_n = city_dct.setdefault('5-10', [0 for i in range(7)])
-                elif int(token_1[0]) > 10:
-                    exp_n = city_dct.setdefault('10+', [0 for i in range(7)])
+
+            if token_1:
+
+                # 第一档
+                # 经验不限或者一年
+                exp_t1 = token_1[0]
+
+                # print(type(exp_t1), exp_t1)
+                if exp_t1 == '不限' or exp_t1 == 1:
+                    exp_lst = city_dct.setdefault('1', [0 for i in range(8)])
+                elif 1 < exp_t1 <= 3:
+                    exp_lst = city_dct.setdefault('1-3', [0 for i in range(8)])
+                elif 3 < exp_t1 <= 5:
+                    exp_lst = city_dct.setdefault('3-5', [0 for i in range(8)])
+                elif 5 < exp_t1 <= 10:
+                    exp_lst = city_dct.setdefault('5-10', [0 for i in range(8)])
+                else:
+                    exp_lst = city_dct.setdefault('10+', [0 for i in range(8)])
+
                 s = token_1[1]
+                # 如果是面议
+                if is_neg:
+                    exp_lst[-1] += 1
+                else:
+                    for i in range(len(standard)):
+                        if s < standard[i]:
+                            exp_lst[i] += 1
+                            break
 
-                if s == -1:
-                    exp_n[-1] += 1
-                for i in range(len(standard)):
-                    if s < standard[i]:
-                        exp_n[i] += 1
-
-            if len(token_2) == 2:
-                # print(token_2)
-                # 处理 token 2
-                if token_1[0] == '不限' or int(token_1[0]) <= 5:
-                    exp_n = city_dct.setdefault(token_1[0], [0 for i in range(7)])
-                elif 5 < int(token_1[0]) <= 10:
-                    exp_n = city_dct.setdefault('5-10', [0 for i in range(7)])
-                elif int(token_1[0]) > 10:
-                    exp_n = city_dct.setdefault('10+', [0 for i in range(7)])
+            if token_2:
+                # 第一档
+                # 经验不限或者一年
+                exp_t1 = token_2[0]
+                if exp_t1 == '不限' or exp_t1 == 1:
+                    exp_lst = city_dct.setdefault('1', [0 for i in range(8)])
+                elif 1 < exp_t1 <= 3:
+                    exp_lst = city_dct.setdefault('1-3', [0 for i in range(8)])
+                elif 3 < exp_t1 <= 5:
+                    exp_lst = city_dct.setdefault('3-5', [0 for i in range(8)])
+                elif 5 < exp_t1 <= 10:
+                    exp_lst = city_dct.setdefault('5-10', [0 for i in range(8)])
+                else:
+                    exp_lst = city_dct.setdefault('10+', [0 for i in range(8)])
 
                 s = token_2[1]
-                if s == -1:
-                    exp_n[-1] += 1
-                for i in range(len(standard)):
-                    if s < standard[i]:
-                        exp_n[i] += 1
+                # 如果是面议
+                if is_neg:
+                    exp_lst[-1] += 1
+                else:
+                    for i in range(len(standard)):
+                        if s < standard[i]:
+                            exp_lst[i] += 1
+                            break
+        # print(count)
         return salary_dct
+
+    def f_main(self):
+
+        query = Firm.objects.all()
+
+        scale_dct = {}
+        ll_city = []
+        for item in query:
+
+            loc_ = item.firm_place
+            loc = loc_.split('-')[0]
+            if loc not in self.cities:
+                continue
+
+            scale_f = item.firm_scale_from
+            scale_t = item.firm_scale_to
+
+            lng = item.firm_lng
+            lat = item.firm_lat
+
+            if lng != -1 and lat != -1:
+
+                # ll_city = ll_dct.setdefault(loc, [])
+                ll_city.append({'value': [lng, lat, 1]})
+
+            token = scale_f
+            if scale_t != 100000:
+                token = scale_t
+
+            if token != 0:
+                for idx in range(1, len(self.scale)):
+                    if token < self.scale[idx]:
+                        s = str(self.scale[idx-1]) + '-' + str(self.scale[idx])
+                        val = scale_dct.setdefault(s, 0)
+                        scale_dct[s] = val + 1
+                        break
+
+        scale_lst = []
+        for k,v in scale_dct.items():
+            dct = {}
+            dct['name'],dct['value'] = k,v
+            scale_lst.append(dct)
+
+        s = {}
+        s['scale'] = scale_lst
+
+        l = {}
+        l['loc'] = ll_city
+
+        return [s, l]
 
     def get_tags(self):
 
@@ -155,7 +246,7 @@ class AnaRecruit:
         # res = c.most_common(20)
         # return res
 
-        keywords = ['运维', '后端', '数据分析', '爬虫']
+        keywords = ['运维', 'web', '数据分析', '爬虫', '数据挖掘']
 
         lst = []
         for i in keywords:
@@ -166,21 +257,61 @@ class AnaRecruit:
             dct['name'] = i
             lst.append(dct)
 
-        return lst
+        d = {}
+        d['require'] = lst
 
-    
+        return d
+
+    def get_keywords(self):
+
+        pt = re.compile(r'[a-zA-Z]+')
+        res = re.findall(pt, self.__require.lower())
+        c = Counter(res)
+        lst = c.most_common(80)
+
+        r = []
+        for i in lst:
+            # print(i[0])
+            if i[0] not in self.exclude:
+                r.append(i)
+
+        d = {}
+        d['keywords'] = r
+        return d
 
 
+        # 统计职位要求出现频率前 20
+        # text = list(jieba.cut(self.__require.lower()))
+        # c = Counter(text)
+        # res = c.most_common(200)
+        # return res
+
+    def main(self):
+
+
+        salary = self.r_main()
+        require = self.get_req()
+        skill = self.get_keywords()
+        scale, ll = self.f_main()
+
+        print(salary)
+        print(require)
+        print(skill)
+        print(scale)
+        print(ll)
+
+        # ShapedData.objects.create(
+        #     salary=json.dumps(salary),
+        #     skill=json.dumps(skill),
+        #     require=json.dumps(require),
+        #     scale=json.dumps(scale),
+        #     location=json.dumps(ll)
+        # )
 
 if __name__ == '__main__':
 
     a = AnaRecruit()
-    r = a.r_main()
-    print(r)
-    r2 = a.get_tags()
-    print(r2)
-    r3 = a.get_req()
-    print(r3)
+    a.main()
 
 
 

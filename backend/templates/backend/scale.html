@@ -1,7 +1,7 @@
 
 <div>
     <!--显示主页  -->
-    <div class="bg salary-bgc">
+    <div class="bg scale-bgc">
       <!-- 顶栏-文字-控制按钮 -->
       <div class="top-block">
         <div class="top-left">
@@ -23,20 +23,18 @@
       <div class="">
         <!-- 表显示 -->
         <div class="display center-block">
-            <div class="box center-block" id='salary'></div>
+            <div class="box center-block" id='scale'>
         </div>
-
-      {#            文字说明#}
         <div class="display-ins center-block">
             <p class="h3">说明: </p>
-            <p>本图包含了Python职位信息中 <strong>不同城市</strong>|<strong>不同工作年限</strong>|<strong>不同薪水</strong> 的对应关系 </p>
-            <p class="h3">使用说明: </p>
-            <p>1. 点击滚动轴上的暂停按钮,然后点击到具体的城市查看信息</p>
-            <p>2. 点击右上角的图例按钮,显示或隐藏某些工作年限数据</p>
+            <p>本图为不同规模的公司招聘 Python 的数量</p>
+            <p class="h3">简单分析: </p>
+            <p>1. 使用 Python 的公司规模多为中小企业,低于 500 人的公司居多</p>
         </div>
+      </div>
     </div>
 {#        {% load static %}#}
-{#    <script src="{% static 'backend/js/charts/salary.js' %}"></script>#}
+{#    <script src="{% static 'backend/js/charts/scale.js' %}"></script>#}
 
 </div>
 </div>

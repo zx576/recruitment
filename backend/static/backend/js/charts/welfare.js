@@ -33,75 +33,7 @@ var mychart = echarts.init(document.getElementById('welfare'));
                 shadowColor: '#333'
             }
         },
-        data: [{
-            name: 'Sam S Club',
-            value: 10000,
-            textStyle: {
-                normal: {
-                    color: 'black'
-                },
-                emphasis: {
-                    color: 'red'
-                }
-            }
-        }, {
-            name: 'Macys',
-            value: 6181
-        }, {
-            name: 'Amy Schumer',
-            value: 4386
-        }, {
-            name: 'Jurassic World',
-            value: 4055
-        }, {
-            name: 'Charter Communications',
-            value: 2467
-        }, {
-            name: 'Chick Fil A',
-            value: 2244
-        }, {
-            name: 'Planet Fitness',
-            value: 1898
-        }, {
-            name: 'Pitch Perfect',
-            value: 1484
-        }, {
-            name: 'Express',
-            value: 1112
-        }, {
-            name: 'Home',
-            value: 965
-        }, {
-            name: 'Johnny Depp',
-            value: 847
-        }, {
-            name: 'Lena Dunham',
-            value: 582
-        }, {
-            name: 'Lewis Hamilton',
-            value: 555
-        }, {
-            name: 'KXAN',
-            value: 550
-        }, {
-            name: 'Mary Ellen Mark',
-            value: 462
-        }, {
-            name: 'Farrah Abraham',
-            value: 366
-        }, {
-            name: 'Rita Ora',
-            value: 360
-        }, {
-            name: 'Serena Williams',
-            value: 282
-        }, {
-            name: 'NCAA baseball tournament',
-            value: 273
-        }, {
-            name: 'Point Break',
-            value: 265
-        }]
+        data: [{'value': 5137, 'name': '五险一金'}, {'value': 3437, 'name': '带薪年假'}, {'value': 3242, 'name': '绩效奖金'}, {'value': 2714, 'name': '定期体检'}, {'value': 2258, 'name': '弹性工作'}, {'value': 1716, 'name': '年底双薪'}, {'value': 1619, 'name': '发展空间大'}, {'value': 1450, 'name': '领导好'}, {'value': 1435, 'name': '岗位晋升'}, {'value': 1381, 'name': '节日礼物'}, {'value': 1320, 'name': '节日福利'}, {'value': 1203, 'name': '员工旅游'}, {'value': 1185, 'name': '午餐补助'}, {'value': 1142, 'name': '扁平管理'}, {'value': 1091, 'name': '交通补助'}, {'value': 1076, 'name': '团队聚餐'}, {'value': 1075, 'name': '技能培训'}, {'value': 971, 'name': '股票期权'}, {'value': 874, 'name': '年度旅游'}, {'value': 843, 'name': '餐补'}]
     }]
 };
 

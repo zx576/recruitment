@@ -23,7 +23,7 @@ class AnaFirm:
         self.cities = ['北京', '上海', '广州', '深圳', '杭州', '苏州', '西安', '成都', '天津', '南京']
         self.scale = [0, 50, 100, 500, 1000, 5000, 10000, 100000]
 
-    def main(self):
+    def f_main(self):
 
         query = Firm.objects.all()
 
@@ -57,6 +57,7 @@ class AnaFirm:
                         s = str(self.scale[idx-1]) + '-' + str(self.scale[idx])
                         val = scale_dct.setdefault(s, 0)
                         scale_dct[s] = val + 1
+                        break
 
         scale_lst = []
         for k,v in scale_dct.items():
@@ -68,6 +69,6 @@ class AnaFirm:
 
 if __name__ == '__main__':
     a = AnaFirm()
-    r = a.main()
+    r = a.f_main()
     print(r[0])
     print(r[1]['上海'])

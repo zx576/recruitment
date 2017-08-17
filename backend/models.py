@@ -106,11 +106,14 @@ class Proxy(models.Model):
 class ShapedData(models.Model):
 
     salary = models.TextField('薪水分析')
-    welfare = models.TextField('职位福利分析')
+    # welfare = models.TextField('职位福利分析')
+    skill = models.TextField('技能树')
     require = models.TextField('职位方向')
     location = models.TextField('地理位置')
     scale = models.TextField('公司规模')
-    degree = models.TextField('学历分布')
+    # degree = models.TextField('学历分布')
+
+    created_time = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.id
+        return str(self.id)

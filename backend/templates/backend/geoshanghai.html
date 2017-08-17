@@ -1,7 +1,7 @@
 
 <div>
     <!--显示主页  -->
-    <div class="bg welfare-bgc">
+    <div class="bg shanghai-bgc">
       <!-- 顶栏-文字-控制按钮 -->
       <div class="top-block">
         <div class="top-left">
@@ -23,10 +23,16 @@
       <div class="">
         <!-- 表显示 -->
         <div class="display center-block">
-            <div class="box" id='shanghaigeo'>
+            <div class="geo-box center-block" id='shanghaigeo'>
+        </div>
+
+        <div class="display-ins-geo center-block">
+        <p>本图接入了百度地图,可放大缩小查看具体城市更详细的内容</p>
         </div>
       </div>
     </div>
-    {% load static %}
-    <script src="{% static 'backend/js/charts/geoshanghai.js' %}"></script>
+{#    {% load static %}#}
+
+
+{#    <script src="{% static 'backend/js/charts/geoshanghai.js' %}"></script>#}
 </div>
