@@ -3,9 +3,9 @@
 # description
 # 启动所有爬虫
 
-import scrapy
+# import scrapy
 from scrapy.cmdline import execute
-import multiprocessing
+# import multiprocessing
 
 spiders = [
     'scrapy crawl zhilian',
@@ -16,17 +16,21 @@ spiders = [
 
 if __name__ == '__main__':
 
-    processes = []
+    # processes = []
+    #
+    # for s in spiders:
+    #     p = multiprocessing.Process(target=execute, args=(s.split(),))
+    #     processes.append(p)
+    #
+    # for i in processes:
+    #     i.start()
+    #
+    # for j in processes:
+    #     j.join()
 
-    for s in spiders:
-        p = multiprocessing.Process(target=execute, args=(s.split(),))
-        processes.append(p)
+    for i in spiders:
 
-    for i in processes:
-        i.start()
-
-    for j in processes:
-        j.join()
+        execute(i.split())
 
 
 
