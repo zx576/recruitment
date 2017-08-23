@@ -4,9 +4,18 @@
 
 $(document).ready(function () {
   var displayH = $(window).height()
+  if (displayH > 1000){
+    $('.bg').css({'min-height':1000})
+  } else {
+    $('.bg').css({'min-height':displayH})
+  }
+
   // var displayW = $(window).width()
 
   // console.log(displayW, displayH)
+  // var displayW = $('.display').width()
+  //
+  // $('.box').css({'width':displayw, 'height': displayW*(0.6)})
   var a_salary = ''
   var a_require = ''
   var a_loc = ''
@@ -33,11 +42,16 @@ $(document).ready(function () {
     }
 
   })
-  $('.bg').css({'height':displayH})
+
+//    window.onresize = function () {
+//     set_salary(a_salary)
+// };
+
 
 })
 
 function set_salary (a_salary) {
+
   var sl_dct = a_salary
   // console.log(sl_dct)
   var years = ['1', '1-3', '3-5', '5-10', '10+']
@@ -66,11 +80,12 @@ function set_salary (a_salary) {
         // console.log(dct)
         dt.push(dct_o)
       }
-      console.log(dt)
+      // console.log(dt)
       return dt
   }
-
-  var salarychart = echarts.init(document.getElementById('salary'));
+  var salary_chart = document.getElementById('salary')
+  myChartContainer(salary_chart)
+  var salarychart = echarts.init(salary_chart);
 
           // 指定图表的配置项和数据
           var option = {
@@ -144,6 +159,7 @@ function set_salary (a_salary) {
 
           // 使用刚指定的配置项和数据显示图表。
           salarychart.setOption(option);
+
   }
 
 function set_salary_line (a_salary) {
@@ -174,14 +190,16 @@ function set_salary_line (a_salary) {
         }
       }
       sl_dct['data'] = sl_nums
-      console.log(cities[i], sl_nums)
+      // console.log(cities[i], sl_nums)
       salaryline_data.push(sl_dct)
     }
 
     return salaryline_data
   }
 
-  var salaryline = echarts.init(document.getElementById('salary-line'));
+  var salary_line = document.getElementById('salary-line')
+  myChartContainer(salary_line)
+  var salaryline = echarts.init(salary_line);
 
   var option = {
      title: {
@@ -222,7 +240,10 @@ function set_salary_line (a_salary) {
 function set_geo (geo) {
 
   var geodt = geo['loc']
-  var shanghaichart = echarts.init(document.getElementById('shanghaigeo'));
+  // var shanghaichart = echarts.init(document.getElementById('shanghaigeo'));
+  var shanghai_chart = document.getElementById('shanghaigeo')
+  myChartContainer(shanghai_chart)
+  var shanghaichart = echarts.init(shanghai_chart);
 
     var option = {
         title: {
@@ -287,7 +308,10 @@ function set_geo (geo) {
 function set_req (reqdt) {
 
   var keywords = reqdt['keywords']
-  var reqchart = echarts.init(document.getElementById('welfare'));
+  // var reqchart = echarts.init(document.getElementById('welfare'));
+  var req_chart = document.getElementById('welfare')
+  myChartContainer(req_chart)
+  var reqchart = echarts.init(req_chart);
 
   function skilldt (kw) {
 
@@ -349,7 +373,10 @@ function set_scale (scale) {
     return scale_x
   }
 
-  var scalechart = echarts.init(document.getElementById('scale'));
+  // var scalechart = echarts.init(document.getElementById('scale'));
+  var scale_chart = document.getElementById('scale')
+  myChartContainer(scale_chart)
+  var scalechart = echarts.init(scale_chart);
 
   var option = {
 
@@ -385,7 +412,10 @@ function get_xaxis (dt) {
   }
   return major_x
 }
-var myChart_m = echarts.init(document.getElementById('major'));
+// var myChart_m = echarts.init(document.getElementById('major'));
+  var myChartm = document.getElementById('major')
+  myChartContainer(myChartm)
+  var myChart_m = echarts.init(myChartm);
 
   var option = {
         title: {
@@ -428,3 +458,17 @@ var myChart_m = echarts.init(document.getElementById('major'));
 
 myChart_m.setOption(option)
 }
+
+var myChartContainer = function (myChart) {
+
+    var ww = window.innerWidth
+    // var wh = window.innerHeight
+    var chartw = ww * 0.6
+    var charth = chartw * 0.6
+    myChart.style.width =  chartw +'px';
+    myChart.style.height = charth +'px';
+
+};
+
+
+

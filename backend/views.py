@@ -23,7 +23,7 @@ def proxy_list(request):
         try:
             dt = ShapedData.objects.get(created_time=today)
         except:
-            dt = ShapedData.objects.get(created_time=yesterday)
+            dt = ShapedData.objects.all()[-1]
 
         dct = {}
         dct['salary'] = json.loads(dt.salary)

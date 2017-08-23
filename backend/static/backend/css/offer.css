@@ -14,6 +14,13 @@ body{
     /*background-color: #1b6d85;*/
     /*z-index:-1;*/
     /*padding: 20px 20px;*/
+    width: 100%;
+    /*max-height: 1000px;*/
+    margin: 0 0;
+    padding: 0 0;
+}
+.offer-con{
+    width: 100%;
 }
 
 .top-block{
@@ -21,8 +28,8 @@ body{
     padding-top: 20px;
     height: 40px;
     width: 100%;
-    padding-left: 40px;
-    padding-right: 100px;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 .top-left{
     display: inline-block;
@@ -30,9 +37,9 @@ body{
 .top-right{
     display: inline-block;
 }
-.favicon{
-    height: 20px;
-}
+/*.favicon{*/
+    /*height: 20px;*/
+/*}*/
 .c-mainpage{
     color: #fff;
     text-decoration: none;
@@ -43,24 +50,28 @@ body{
     color: #fff;
 }
 .display{
-    margin: 10px 10px;
+    margin: 10px 10px 0;
     padding: 10px 10px;
+    /*height: ;*/
 
 }
 .box{
-    height: 600px;
-    width: 1000px;
+    /*height: 600px;*/
+    /*width: 1000px;*/
+    height: 40%;
+    width: 60%;
+
 }
 
 .geo-box{
-    height: 800px;
-    width: 1200px;
+    height: 40%;
+    width: 60%;
 }
 .display-ins{
-    width: 1000px;
+    width: 60%;
     height: auto;
     margin-top: 20px;
-    padding-left: 70px;
+    /*padding-left: 70px;*/
 }
 /*salary.html*/
 .salary-bgc{
@@ -78,7 +89,7 @@ body{
     background-color: #99A8A1;
 }
 .display-ins-geo{
-    width: 1200px;
+    width: 60%;
     height: auto;
     margin-top: 20px;
 }
