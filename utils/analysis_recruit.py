@@ -8,6 +8,7 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.server_settings")
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
 django.setup()
 
 from collections import Counter
@@ -245,16 +246,26 @@ class AnaRecruit:
         # c = Counter(text)
         # res = c.most_common(20)
         # return res
+        # 运维
+        # words = '运维'
+        # 后端
+        # web 后端 后台
+        # 爬虫
+        # 爬虫　数据挖掘
+        # 数据分析
+        # 数据分析 大数据
 
-        keywords = ['运维', 'web', '数据分析', '爬虫', '数据挖掘']
+
+
+        keywords = ['运维', 'web|后端|后台', '数据分析|大数据', '爬虫|数据挖掘']
 
         lst = []
         for i in keywords:
             dct = {}
             p = re.compile(r'{}'.format(i))
-            count = len(re.findall(p,self.__require))
+            count = len(re.findall(p,self.__require.lower()))
             dct['value'] = count
-            dct['name'] = i
+            dct['name'] = i.split('|')[0]
             lst.append(dct)
 
         d = {}

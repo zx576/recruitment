@@ -12,6 +12,7 @@ import json
 def index(request):
     return render(request, 'backend/base.html', {'key': 'value'})
 
+
 @csrf_exempt
 def proxy_list(request):
 
@@ -23,7 +24,7 @@ def proxy_list(request):
         try:
             dt = ShapedData.objects.get(created_time=today)
         except:
-            dt = ShapedData.objects.all()[-1]
+            dt = ShapedData.objects.all()[::-1][0]
 
         dct = {}
         dct['salary'] = json.loads(dt.salary)
