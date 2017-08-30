@@ -10,6 +10,7 @@ $(document).ready(function () {
     $('.bg').css({'min-height':displayH})
   }
 
+  // console.log($('.col-md-6').width())
   // var displayW = $(window).width()
 
   // console.log(displayW, displayH)
@@ -43,13 +44,10 @@ $(document).ready(function () {
 
   })
 
-//    window.onresize = function () {
-//     set_salary(a_salary)
-// };
-
 
 })
 
+// timeline
 function set_salary (a_salary) {
 
   var sl_dct = a_salary
@@ -84,7 +82,9 @@ function set_salary (a_salary) {
       return dt
   }
   var salary_chart = document.getElementById('salary')
-  myChartContainer(salary_chart)
+  var wh = myChartContainer(salary_chart);
+  var screenw = wh[0];
+  var screeh = wh[1];
   var salarychart = echarts.init(salary_chart);
 
           // 指定图表的配置项和数据
@@ -154,6 +154,52 @@ function set_salary (a_salary) {
 
               }]
             },
+            media:[
+              // query 1
+              {
+                query:{
+                  maxAspectRatio: 1
+                },
+                option:{
+                  grid:{
+                    // left: 'center',
+                    top: '100',
+                    width: '80%',
+                    height: '60%'
+                  },
+                  legend: {
+                    left: '0',
+                    top: '5%',
+                    orient: 'horizontal'
+                  },
+                  timeline:{
+                    left: '10%',
+                    bottom: '8%'
+                  }
+
+                }
+              },
+              //query 2
+              {
+                query:{
+                  minAspectRatio: 1
+                },
+                option:{
+                  grid:{
+                    left: 'center',
+                    width: '60%',
+                    height: '60%'
+
+                  },
+                  legend: {
+                    right: '20%'
+                  },
+                  timeline: {
+                    bottom: '20%'
+                  }
+                }
+              }
+            ],
             options: get_options(cities)
           };
 
@@ -180,7 +226,6 @@ function set_salary_line (a_salary) {
               }
             }
       sl_dct['name'] = cities[i]
-      // sl_dct['stack'] = '总量'
       var year_dct = dt[cities[i]]
       var sl_nums = [0,0,0,0,0,0,0,0]
       for (k in year_dct){
@@ -190,10 +235,11 @@ function set_salary_line (a_salary) {
         }
       }
       sl_dct['data'] = sl_nums
-      // console.log(cities[i], sl_nums)
       salaryline_data.push(sl_dct)
+
     }
 
+    // console.log(salaryline_data)
     return salaryline_data
   }
 
@@ -202,25 +248,23 @@ function set_salary_line (a_salary) {
   var salaryline = echarts.init(salary_line);
 
   var option = {
-     title: {
-          text: '各城市薪资分布图'
+     baseOption:{
+       title: {
+          text: '各城市薪资分布图',
+         left: 'center'
       },
       tooltip: {
           trigger: 'axis'
       },
       legend: {
-          data:cities
+          data:cities,
+          top: '7%'
       },
       grid: {
           left: '3%',
           right: '4%',
           bottom: '3%',
           containLabel: true
-      },
-      toolbox: {
-          feature: {
-              saveAsImage: {}
-          }
       },
       xAxis: {
           type: 'category',
@@ -231,6 +275,50 @@ function set_salary_line (a_salary) {
           type: 'value'
       },
       series: salaryline_data(s_dct)
+     },
+      media: [
+        {
+          query:{
+            maxAspectRatio: 1
+          },
+          option:{
+            grid:{
+                // left: 'center',
+                top: '100',
+                width: '90%',
+                height: '60%'
+              },
+            legend:{
+              top: '5%'
+            },
+            dataZoom: [
+                {
+                    id: 'dataZoomX',
+                    type: 'slider',
+                    xAxisIndex: [0],
+                    filterMode: 'filter',
+                    start: 0,
+                    end: 30,
+                    bottom: '15%'
+                }
+            ]
+          }
+        },
+        {
+          query:{
+            minAspectRatio: 1
+          },
+          option:{
+            grid:{
+              top: 100,
+              left:'center',
+              width: '60%',
+              height: '60%'
+            }
+          }
+        }
+      ]
+
   }
 
   salaryline.setOption(option)
@@ -253,6 +341,10 @@ function set_geo (geo) {
         tooltip: {
             trigger: 'item'
         },
+        // grid:{
+        //   width: '60%',
+        //   height: '60%'
+        // },
          bmap: {
           // 百度地图中心经纬度
           center: [112.446806, 32.222042],
@@ -261,12 +353,8 @@ function set_geo (geo) {
           // 是否开启拖拽缩放，可以只设置 'scale' 或者 'move'
           roam: true,
           // 百度地图的自定义样式，见 http://developer.baidu.com/map/jsdevelop-11.htm
-          mapStyle: {}
+          mapStyle: {},
       },
-        // geo: {
-        //   map: '上海'
-        //
-        // },
         legend: {
           orient: 'vertical',
           y: 'bottom',
@@ -276,6 +364,12 @@ function set_geo (geo) {
               color: 'black'
           }
         },
+        // media:[
+        //   {
+        //     query:{},
+        //     option:{}
+        //   }
+        // ],
         series: [
           {
             name: '热门城市地区职位分布',
@@ -328,7 +422,8 @@ function set_req (reqdt) {
   }
   var option = {
     title:{
-        text:"Python职位关键词"
+        text:"Python职位关键词",
+        left:'center'
         // link:'https://github.com/ecomfe/echarts-wordcloud',
         // subtext: 'data-visual.cn',
         // sublink:'http://data-visual.cn',
@@ -380,7 +475,8 @@ function set_scale (scale) {
 
   var option = {
 
-    title: {
+    baseOption: {
+      title: {
       text: '招聘 Python 公司规模'
     },
      tooltip : {
@@ -395,6 +491,19 @@ function set_scale (scale) {
 
               }
           ]
+    },
+    media: [
+      {
+        query: {
+          minAspectRatio: 1
+        },
+         grid: {
+            left: 'center',
+            width: '60%',
+            height: '60%'
+          }
+      }
+    ]
 
   }
 
@@ -418,7 +527,8 @@ function get_xaxis (dt) {
   var myChart_m = echarts.init(myChartm);
 
   var option = {
-        title: {
+        baseOption:{
+          title: {
           text: 'Python职位方向'
         },
         color: ['#3398DB'],
@@ -454,6 +564,21 @@ function get_xaxis (dt) {
                 data:major_dt
             }
         ]
+        },
+        media: [
+          {
+            query: {
+              minAspectRatio: 1
+            },
+            option: {
+              grid: {
+                left: 'center',
+                width: '60%',
+                height: '60%'
+              }
+            }
+          }
+        ]
     };
 
 myChart_m.setOption(option)
@@ -461,13 +586,12 @@ myChart_m.setOption(option)
 
 var myChartContainer = function (myChart) {
 
-    var ww = window.innerWidth
-    // var wh = window.innerHeight
-    var chartw = ww * 0.6
-    var charth = chartw * 0.6
-    myChart.style.width =  chartw +'px';
-    myChart.style.height = charth +'px';
+    var screenW = window.innerWidth;
+    var screenH = window.innerHeight;
+    myChart.style.width =  screenW*(0.9)+'px';
+    myChart.style.height = screenH*(0.9) +'px';
 
+    return [screenW, screenH]
 };
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crossin编程教室-Python职位报告</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'backend/css/bootstrap.css' %}">
@@ -22,30 +22,168 @@
 </head>
 <body>
 
-{#<div class="container-fluid">#}
-{#    <div class="row">#}
-{#       <div class="col-md-12 col-sm-12 col-xs-12 ">#}
+{#        导航条#}
+    <nav class="navbar navbar-default navbar-fixed-top lab-navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#ul_tags" >
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://crossincode.com/" class="navbar-brand lab-text" target="_blank">Crossin的编程教室</a>
+
+            </div>
+            <div class="collapse navbar-collapse" id="ul_tags">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/">实验室</a></li>
+                    <li class="dropdown">
+                        <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button">码上行动 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://crossincode.com/school/course/1/">Python入门教程</a></li>
+                            <li><a href="http://crossincode.com/school/course/2/">Python爬虫实战</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="http://bbs.crossincode.com/forum.php" target="_blank">交流论坛</a></li>
+                    <li><a href="https://zhuanlan.zhihu.com/crossin" target="_blank">知乎专栏</a></li>
+{#                    <li><a href="#">在线教室</a></li>#}
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
 {##}
-{#       </div>#}
-{#    </div>#}
+
+
+<!--显示主页  -->
+    <div class="container-fluid">
+      <!-- 表显示区域 -->
+      <div class="row salary-bgc">
+        <div class="display-h col-md-12">
+             <!-- 表显示 -->
+        <div class="center-block">
+            <div class="box center-block" id='salary'></div>
+        </div>
+        </div>
+
+        <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+            <div class="center-block">
+                <p class="h3">说明: </p>
+                <p>本图包含了Python职位信息中 <strong>不同城市</strong>|<strong>不同工作年限</strong>|<strong>不同薪水</strong> 的对应关系 </p>
+                <p class="h3">使用说明: </p>
+                <p>1. 点击滚动轴上的暂停按钮,然后点击到具体的城市查看信息</p>
+                <p>2. 点击右上角的图例按钮,显示或隐藏某些工作年限数据</p>
+            </div>
+        </div>
+    </div>
+{#        薪资折线图#}
+    <div class="row salaryline-bgc">
+        <!-- 表显示 -->
+        <div class="display-h col-md-12">
+            <div class="center-block">
+                <div class="box center-block" id='salary-line'></div>
+            </div>
+        </div>
+
+      {#            文字说明#}
+        <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+            <div class="center-block">
+                <p class="h3">说明: </p>
+                <p>本图包含了Python职位信息中 <strong>不同城市</strong>|<strong>不同薪水</strong> 的对应关系 </p>
+                <p class="h3">简单分析: </p>
+                <p>1. 北上一线城市薪水以 15K-20k 最多,在 25k 以上仍然有强劲的需求, 在这两地学习 Python 的同学继续加油.</p>
+                <p>2. 准一线城市中,成都/南京/西安 对 Python 需求强烈, 不过薪资相比北上还有一定距离.</p>
+            </div>
+        </div>
+    </div>
+
+{#      地图  #}
+
+    <div class="row shanghai-bgc">
+    <!-- 表显示 -->
+        <div class="display-h col-md-12">
+            <div class="center-block">
+                <div class="geo-box center-block" id='shanghaigeo'></div>
+
+                <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+                    <p>本图接入了百度地图,可放大缩小查看具体城市更详细的内容</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{#        skills#}
+
+    <div class="row welfare-bgc">
+        <!-- 表显示 -->
+        <div class="display-h col-md-12">
+            <div class="box center-block" id='welfare'></div>
+        </div>
+
+        <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+            <p class="h3">说明: </p>
+            <p>本图包含了Python职位信息中的一些职位技能</p>
+            <p class="h3">简单分析: </p>
+            <p>1. 技能关键词分布较广,总的来说分为几个部分: 操作系统-编程语言-数据库端-计算机基础(数据结构/设计模式)-网页服务器端-前端-测试-大数据 等</p>
+            <p>2. 操作系统方面 linux 占比最高, 如果平时使用 windows ,也需要花点时间学习一下 linux</p>
+            <p>3. 大部分职位要求求职者除了熟练 Python 之外,还需要了解一门或多门其他语言.</p>
+            <p>4. 在学习 Python 的同时,数据库学习也不能落下,不管是 sql 还是 nosql ,你得熟悉一门,并且了解另一种</p>
+            <p>5. 学习 web 开发的同学注意了,django 和 flask 框架为目前招聘主流,同时你仍需要了解 html-css-js 等前端知识</p>
+        </div>
+    </div>
+
+{#        scale#}
+
+    <div class="row scale-bgc">
+        <!-- 表显示 -->
+        <div class="display-h col-md-12">
+            <div class="box center-block" id='scale'></div>
+        </div>
+        <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+            <p class="h3">说明: </p>
+            <p>本图为不同规模的公司招聘 Python 的数量</p>
+            <p class="h3">简单分析: </p>
+            <p>1. 使用 Python 的公司规模多为中小企业,低于 500 人的公司居多</p>
+
+        </div>
+    </div>
+
+{#        major#}
+<div class="row skill-bgc">
+    <!-- 表显示 -->
+    <div class="display-h col-md-12">
+        <div class="box center-block" id='major'></div>
+    </div>
+    <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+        <p class="h3">说明: </p>
+        <p>1. 本图为目前主流 Python 就职方向分布图</p>
+        <p>2. 上述词汇代表了一类型职位的总出现次数,比如 'web' 和 '后端', '后台'等词汇都属于一类型,统计时做叠加处理</p>
+    </div>
+</div>
+
+</div>
+
+
+{#{% include 'backend/salary.html' %}#}
+{#<div style="margin-top: -10px">#}
+{#    {% include 'backend/salaryline.html' %}#}
 {#</div>#}
-
-{% include 'backend/salary.html' %}
-<div style="margin-top: -10px">
-    {% include 'backend/salaryline.html' %}
-
-</div>
-<div style="margin-top: -10px">
-{% include 'backend/geoshanghai.html' %}
-</div>
-{% include 'backend/welfare.html' %}
-{% include 'backend/major.html' %}
-{% include 'backend/scale.html' %}
+{##}
+{#<div style="margin-top: -10px">#}
+{#{% include 'backend/geoshanghai.html' %}#}
+{#</div>#}
+{#{% include 'backend/welfare.html' %}#}
+{#{% include 'backend/major.html' %}#}
+{#{% include 'backend/scale.html' %}#}
 
 <script src="http://api.map.baidu.com/api?v=2.0&ak=qnzVuKRtM7jL77gt0G0HVG7G2S9pmxG3"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
+<script src="{% static 'backend/js/echarts.js' %}"></script>
+{#<script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>#}
 <script src="{% static 'backend/js/echarts-wordcloud.min.js' %}"></script>
 <script src="{% static 'backend/js/bmap.js' %}"></script>
 <script src="{% static 'backend/js/offer.js' %}"></script>

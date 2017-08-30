@@ -4,6 +4,7 @@ html{
 }
 body{
     height: 100%;
+    padding-top: 50px;
 }
 .bg{
     /*background-image: url('../assets/pics/lani.jpg');*/
@@ -58,8 +59,9 @@ body{
 .box{
     /*height: 600px;*/
     /*width: 1000px;*/
-    height: 40%;
-    width: 60%;
+    /*height: 40%;*/
+    /*width: 60%;*/
+    /*height: 100%;*/
 
 }
 
@@ -114,4 +116,8 @@ body{
 /*major.html*/
 .major-bgc{
     background-color: #A2B98D;
+}
+
+.display-h{
+    padding-top: 20px;
 }
