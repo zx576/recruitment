@@ -7,7 +7,7 @@ import os, django
 import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.server_settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
 django.setup()
 
@@ -24,8 +24,11 @@ class AnaRecruit:
         self.cities = ['北京', '上海', '广州', '深圳', '杭州', '苏州', '西安', '成都', '天津', '南京']
         self.tags = []
         self.__require = ''
-        self.exclude = ['and', 'of', 'in', 'to', 'the', 'with', 'a', 'or', 'for', 'is', 'r', 'on', 'be', 'data',
-                        'it', 'as', 'team', 'work', 'etl', 's', 'good', 'years', 'etc', 'will', 'plus']
+        self.exclude = ['and', 'the', 'with','for', 'data',
+                        'team', 'work', 'etl', 'good', 'years',
+                        'etc', 'will', 'plus', 'from', 'new', 'our',
+                        'div', 'are'
+                        ]
         self.scale = [0, 50, 100, 500, 1000, 5000, 10000, 100000]
 
     def r_main(self):
@@ -255,10 +258,13 @@ class AnaRecruit:
         # 数据分析
         # 数据分析 大数据
 
-
-
-        keywords = ['运维', 'web|后端|后台', '数据分析|大数据', '爬虫|数据挖掘']
-
+        keywords = ['运维|监控|自动化',
+                    'web|后端|后台|服务端|django|flask|网络开发|tornado',
+                    '数据分析|大数据|hadoop|spark',
+                    '爬虫|挖掘|抓取',
+                    '游戏|手游',
+                    '深度学习|识别|机器学习|神经网络'
+                    ]
         lst = []
         for i in keywords:
             dct = {}
@@ -277,7 +283,7 @@ class AnaRecruit:
 
         pt = re.compile(r'[a-zA-Z]+')
         res = re.findall(pt, self.__require.lower())
-        c = Counter(res)
+        c = Counter([i for i in res if len(i) > 2 and not i in self.exclude])
         lst = c.most_common(80)
 
         r = []
@@ -290,12 +296,68 @@ class AnaRecruit:
         d['keywords'] = r
         return d
 
+    def get_s_keywords(self):
 
-        # 统计职位要求出现频率前 20
-        # text = list(jieba.cut(self.__require.lower()))
-        # c = Counter(text)
-        # res = c.most_common(200)
-        # return res
+        def match_(desc):
+            keywords = ['运维|监控|自动化',
+                        'web|后端|后台|服务端|django|flask|网络开发|tornado',
+                        '数据分析|大数据|hadoop|spark',
+                        '爬虫|挖掘|抓取',
+                        '游戏|手游',
+                        '深度学习|识别|机器学习|神经网络'
+                        ]
+            for i in keywords:
+                p = re.compile(r'{}'.format(i))
+                if re.findall(p, desc.lower()):
+                    return i.split('|')[0]
+
+        def extract_(desc):
+            pt = re.compile(r'[\u4e00-\u9fa5a-z]+')
+            rs = re.findall(pt, desc)
+            return ''.join(rs)
+
+        def analysis_(content):
+            pt = re.compile(r'[a-zA-Z]+')
+            res = re.findall(pt, content.lower())
+            c = Counter([i for i in res if len(i) > 2 and not i in self.exclude])
+            lst = c.most_common(40)
+            return lst
+
+        query = Recruit.objects.filter(is_alive=True)
+        resdct = {}
+        for item in query:
+            title = item.name
+            description = item.description.lower()
+            direction = match_(description+title)
+            if not direction:
+                continue
+
+            r = resdct.setdefault(direction, '')
+            r += description+title
+            resdct[direction] = r
+
+        jieba_dct = {}
+        for k,v in resdct.items():
+
+            tem = jieba_dct.setdefault(k, [])
+            jieba_dct[k] += analysis_(v)
+
+
+
+        # jieba_dct = {}
+        # for k,v in resdct.items():
+        #     r = jieba.cut(v)
+        #     c = Counter(r)
+        #     c_ = c.most_common(100)
+        #     tem = jieba_dct.setdefault(k, [])
+        #     tem += c_
+        #
+        # for i,j in jieba_dct.items():
+        #     print(i, j)
+
+        # print(jieba_dct)
+        return jieba_dct
+
 
     def main(self):
 
@@ -304,16 +366,19 @@ class AnaRecruit:
         require = self.get_req()
         skill = self.get_keywords()
         scale, ll = self.f_main()
+        skill2 = self.get_s_keywords()
+        skill2['all'] = skill['keywords']
+
 
         # print(salary)
         # print(require)
-        # print(skill)
+        # print(skill2)
         # print(scale)
         # print(ll)
 
         ShapedData.objects.create(
              salary=json.dumps(salary),
-             skill=json.dumps(skill),
+             skill=json.dumps(skill2),
              require=json.dumps(require),
              scale=json.dumps(scale),
              location=json.dumps(ll)
@@ -323,6 +388,7 @@ if __name__ == '__main__':
 
     a = AnaRecruit()
     a.main()
+    # a.get_s_keywords()
 
 
 

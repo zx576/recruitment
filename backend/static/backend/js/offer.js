@@ -353,7 +353,7 @@ function set_geo (geo) {
           // 是否开启拖拽缩放，可以只设置 'scale' 或者 'move'
           roam: true,
           // 百度地图的自定义样式，见 http://developer.baidu.com/map/jsdevelop-11.htm
-          mapStyle: {},
+          mapStyle: {}
       },
         legend: {
           orient: 'vertical',
@@ -401,35 +401,12 @@ function set_geo (geo) {
 
 function set_req (reqdt) {
 
-  var keywords = reqdt['keywords']
-  // var reqchart = echarts.init(document.getElementById('welfare'));
+  var keys = get_keys()
   var req_chart = document.getElementById('welfare')
   myChartContainer(req_chart)
   var reqchart = echarts.init(req_chart);
 
-  function skilldt (kw) {
-
-    var skills = []
-    for (i in kw){
-      var tem_dct = {}
-      tem_dct['name'] = kw[i][0]
-      tem_dct['value'] = kw[i][1]
-      skills.push(tem_dct)
-
-    }
-
-    return skills
-  }
-  var option = {
-    title:{
-        text:"Python职位关键词",
-        left:'center'
-        // link:'https://github.com/ecomfe/echarts-wordcloud',
-        // subtext: 'data-visual.cn',
-        // sublink:'http://data-visual.cn',
-    },
-    tooltip: {},
-    series: [{
+  var prefix = {
         type: 'wordCloud',
         gridSize: 20,
         sizeRange: [20, 100],
@@ -449,11 +426,107 @@ function set_req (reqdt) {
                 shadowBlur: 10,
                 shadowColor: '#333'
             }
-        },
-        data: skilldt(keywords)
-    }]
-};
+        }
+    }
 
+  var base_series_data = get_base_series(keys)
+  var options_series_data = get_series(keys)
+
+
+
+  function get_keys () {
+    var k = []
+    for (i in reqdt){
+      k.push(i)
+    }
+
+    return k
+  }
+  function get_base_series (keys) {
+
+    var s = []
+    for (i in keys){
+      s.push(prefix)
+    }
+
+    return s
+  }
+
+  function get_series (keys) {
+
+    var series = []
+    for (i in keys){
+      var items = reqdt[keys[i]]
+      var pf = {
+        title: {
+          'text': keys[i]
+        }
+      }
+      var kvs = []
+      for (j in items){
+        var tem = {}
+        tem['name'] = items[j][0]
+        tem['value'] = items[j][1]
+        kvs.push(tem)
+      }
+      pf['series'] = []
+      pf['series'].push({'data': kvs})
+      series.push(pf)
+    }
+
+    return series
+  }
+
+
+
+  function skilldt (kw) {
+
+    var skills = []
+    for (i in kw){
+      var tem_dct = {}
+      tem_dct['name'] = kw[i][0]
+      tem_dct['value'] = kw[i][1]
+      skills.push(tem_dct)
+
+    }
+
+    return skills
+  }
+
+  // console.log(keys)
+  var option = {
+    baseOption: {
+      title:{
+          text:"Python职位关键词",
+          left:'center'
+      },
+      timeline: {
+        data: keys,
+        autoPlay: true,
+        // playInterval: 1000,
+        axisType: 'category'
+      },
+      series: base_series_data
+      },
+    options: options_series_data,
+    media: [
+      {
+        query:{
+          maxAspectRatio: 1
+        },
+        option:{
+          timeline:{
+            left: 0
+          },
+          grid:{
+            width: '100%',
+            height: '100%',
+            left: 0
+          }
+        }
+      }
+    ]
+};
   reqchart.setOption(option)
 
 }
