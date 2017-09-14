@@ -7,7 +7,7 @@ import os, django
 import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.server_settings")
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
 django.setup()
 
