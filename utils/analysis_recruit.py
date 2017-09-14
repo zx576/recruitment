@@ -102,7 +102,7 @@ class AnaRecruit:
                 else:
                     if is_annual:
                         token_1.append(salart_f * 10000 // 12)
-                        token_2.append(salart_t *10000 // 12)
+                        token_2.append(salart_t * 10000 // 12)
 
                     else:
                         token_1.append(salart_f)
@@ -248,17 +248,8 @@ class AnaRecruit:
         # text = list(jieba.cut(self.__require))
         # c = Counter(text)
         # res = c.most_common(20)
-        # return res
-        # 运维
-        # words = '运维'
-        # 后端
-        # web 后端 后台
-        # 爬虫
-        # 爬虫　数据挖掘
-        # 数据分析
-        # 数据分析 大数据
 
-        keywords = ['运维|监控|自动化',
+        keywords = ['运维|监控',
                     'web|后端|后台|服务端|django|flask|网络开发|tornado',
                     '数据分析|大数据|hadoop|spark',
                     '爬虫|挖掘|抓取',
@@ -299,7 +290,7 @@ class AnaRecruit:
     def get_s_keywords(self):
 
         def match_(desc):
-            keywords = ['运维|监控|自动化',
+            keywords = ['运维|监控',
                         'web|后端|后台|服务端|django|flask|网络开发|tornado',
                         '数据分析|大数据|hadoop|spark',
                         '爬虫|挖掘|抓取',
@@ -384,6 +375,8 @@ class AnaRecruit:
              location=json.dumps(ll)
          )
 
+
+    # def show
 if __name__ == '__main__':
 
     a = AnaRecruit()
