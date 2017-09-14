@@ -33,7 +33,7 @@ class AnaRecruit:
 
     def r_main(self):
 
-        r_query = Recruit.objects.all() #filter(work_place='北京')
+        r_query = Recruit.objects.filter(is_alive=True) #filter(work_place='北京')
         salary_dct = {}
 
         count = 0
@@ -182,7 +182,7 @@ class AnaRecruit:
 
     def f_main(self):
 
-        query = Firm.objects.all()
+        query = Firm.objects.filter(is_alive=True)
 
         scale_dct = {}
         ll_city = []
