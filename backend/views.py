@@ -22,7 +22,7 @@ def proxy_list(request):
         yesterday = today - datetime.timedelta(days=1)
 
         try:
-            dt = ShapedData.objects.get(created_time=today)
+            dt = ShapedData.objects.latest('created_time')
         except:
             dt = ShapedData.objects.all()[::-1][0]
 

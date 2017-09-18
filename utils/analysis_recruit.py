@@ -7,8 +7,8 @@ import os, django
 import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.server_settings")
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.server_settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
 django.setup()
 
 from collections import Counter
@@ -248,27 +248,91 @@ class AnaRecruit:
         # text = list(jieba.cut(self.__require))
         # c = Counter(text)
         # res = c.most_common(20)
+        def match_(desc):
+            keywords = ['运维|监控',
+                        'web|后端|后台|服务端|django|flask|网络开发|tornado',
+                        '数据分析|大数据|hadoop|spark',
+                        '爬虫|挖掘|抓取|scrapy|pyspider',
+                        '游戏|手游|cocos',
+                        '深度学习|识别|机器学习|神经网络|tensorflow'
+                        ]
+            for i in keywords:
+                p = re.compile(r'{}'.format(i))
+                if re.findall(p, desc.lower()):
+                    return i.split('|')[0]
 
-        keywords = ['运维|监控',
-                    'web|后端|后台|服务端|django|flask|网络开发|tornado',
-                    '数据分析|大数据|hadoop|spark',
-                    '爬虫|挖掘|抓取',
-                    '游戏|手游',
-                    '深度学习|识别|机器学习|神经网络'
-                    ]
-        lst = []
-        for i in keywords:
-            dct = {}
-            p = re.compile(r'{}'.format(i))
-            count = len(re.findall(p,self.__require.lower()))
-            dct['value'] = count
-            dct['name'] = i.split('|')[0]
-            lst.append(dct)
+        def get_salary_(salary_f, salary_t, is_annual):
+            if is_annual:
+                if all([salary_f, salary_t]):
+                    return ((salary_f+salary_t) * 10000 // 24)
+                else:
+                    return ((salary_f + salary_t) * 10000 // 12)
 
-        d = {}
-        d['require'] = lst
+            else:
+                if all([salary_f, salary_t]):
+                    return (salary_f+salary_t) // 2
+                else:
+                    return salary_f + salary_t
 
-        return d
+        def get_years(year_from, year_to):
+
+            year_from = year_from if 50 > year_from > 0 else 0
+            year_to = year_to if 50 > year_to > 0 else 0
+
+            if all([year_from, year_to]):
+                return (year_from+year_to) // 2
+
+            else:
+                return year_from or year_to
+
+
+        query = Recruit.objects.filter(is_alive=True)
+        # 逐个遍历，累加职位计数，累加平均薪资
+        dct = {}
+        for i in query:
+            # 工资面议直接跳过
+            if i.is_negotiable: continue
+            direct = match_(i.name + i.description)
+            # 没有匹配到相应职位直接跳过
+            if not direct: continue
+            tem_ = dct.setdefault(direct, [0, 0, 0])
+            salary = get_salary_(i.salary_from, i.salary_to, i.is_annual_salary)
+            year = get_years(i.years_of_work_from, i.years_of_work_to)
+            # print(direct, salary)
+            tem_[0] += 1
+            tem_[1] += salary
+            tem_[2] += year
+            dct[direct] = tem_
+
+        # print(dct)
+        return dct
+
+        # recruit = []
+        # average = []
+        # for k,v in dct.items():
+        #
+        #     tem_dct_1 = {}
+        #     tem_dct_2 = {}
+        #     tem_dct_1['name'], tem_dct_1['value'] = k, v[0]
+        #     tem_dct_2['name'], tem_dct_2['value'] = k, v[1]//v[0]
+        #     recruit.append(tem_dct_1)
+        #     average.append(tem_dct_2)
+        #
+        # return {'r_num': recruit, 'average': average}
+        # lst = []
+        # for i in keywords:
+        #     dct = {}
+        #     p = re.compile(r'{}'.format(i))
+        #     count = len(re.findall(p,self.__require.lower()))
+        #     dct['value'] = count
+        #     dct['name'] = i.split('|')[0]
+        #     lst.append(dct)
+        #
+        # d = {}
+        # d['require'] = lst
+        #
+        # return d
+
 
     def get_keywords(self):
 
@@ -293,9 +357,9 @@ class AnaRecruit:
             keywords = ['运维|监控',
                         'web|后端|后台|服务端|django|flask|网络开发|tornado',
                         '数据分析|大数据|hadoop|spark',
-                        '爬虫|挖掘|抓取',
-                        '游戏|手游',
-                        '深度学习|识别|机器学习|神经网络'
+                        '爬虫|挖掘|抓取|scrapy|pyspider',
+                        '游戏|手游|cocos',
+                        '深度学习|识别|机器学习|神经网络|tensorflow'
                         ]
             for i in keywords:
                 p = re.compile(r'{}'.format(i))
@@ -334,7 +398,6 @@ class AnaRecruit:
             jieba_dct[k] += analysis_(v)
 
 
-
         # jieba_dct = {}
         # for k,v in resdct.items():
         #     r = jieba.cut(v)
@@ -366,7 +429,7 @@ class AnaRecruit:
         # print(skill2)
         # print(scale)
         # print(ll)
-
+        #
         ShapedData.objects.create(
              salary=json.dumps(salary),
              skill=json.dumps(skill2),

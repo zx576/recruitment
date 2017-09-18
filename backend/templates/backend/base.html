@@ -8,11 +8,8 @@
     <link rel="stylesheet" href="{% static 'backend/css/bootstrap.css' %}">
 
 {#    <script type="application/javascript" src="{% static 'backend/js/jquery-3.2.1.js' %}"></script>#}
-
-
 {#    <script src="{% static 'backend/js/bootstrap.js' %}"></script>#}
 {#    <script src="{% static 'backend/js/echarts.js' %}"></script>#}
-
 {#    <script src="{% static 'backend/js/shanghai.js' %}"></script>#}
 
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -70,11 +67,14 @@
 
         <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
             <div class="center-block">
-                <p class="h3">说明: </p>
-                <p>本图包含了Python职位信息中 <strong>不同城市</strong>|<strong>不同工作年限</strong>|<strong>不同薪水</strong> 的对应关系 </p>
                 <p class="h3">使用说明: </p>
                 <p>1. 点击滚动轴上的暂停按钮,然后点击到具体的城市查看信息</p>
                 <p>2. 点击右上角的图例按钮,显示或隐藏某些工作年限数据</p>
+                <p class="h3">简单分析: </p>
+                <p>本图包含了Python职位信息中 <strong>不同城市</strong>|<strong>不同工作年限</strong>|<strong>不同薪水</strong> 的对应关系 </p>
+                <p>三年内工作经验，在各个城市都是招聘的主力对象,一线城市给的薪水为 15K 居多，二线城市 10K 居多。</p>
+                <p>三到五年工作经验，在北上广深杭有许多 30K 的 offer,而25-30K这一段存在着断层,很显然高级 python 开发者在市面上是被抢着要的</p>
+                <p>5年以上的 offer 不多, 这应该跟 Python 在国内作为开发语言时间不长有关，侧面来说，Python在国内依然很“年轻”</p>
             </div>
         </div>
     </div>
@@ -91,10 +91,10 @@
         <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
             <div class="center-block">
                 <p class="h3">说明: </p>
-                <p>本图包含了Python职位信息中 <strong>不同城市</strong>|<strong>不同薪水</strong> 的对应关系 </p>
+                <p>本图是上图的一个扩展，包含了Python职位信息中 <strong>不同城市</strong>|<strong>不同薪水</strong> 的对应关系 </p>
                 <p class="h3">简单分析: </p>
-                <p>1. 北上一线城市薪水以 15K-20k 最多,在 25k 以上仍然有强劲的需求, 在这两地学习 Python 的同学继续加油.</p>
-                <p>2. 准一线城市中,成都/南京/西安 对 Python 需求强烈, 不过薪资相比北上还有一定距离.</p>
+                <p>折线都呈现出了双山形状，对于初级开发者和高级开发者都有着强烈需求</p>
+                <p>北上深成的职位需求相对其他城市要多一些，而且薪资可观，考虑换工作的同学可以多关注一下</p>
             </div>
         </div>
     </div>
@@ -109,11 +109,11 @@
 
                 <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
                     <p>本图接入了百度地图,可放大缩小查看具体城市更详细的内容</p>
+                    <p>在之前提到过的城市的朋友，可以看看你家附近有多少 Python 岗位呢?</p>
                 </div>
             </div>
         </div>
     </div>
-
 
 {#        skills#}
 
@@ -131,7 +131,8 @@
             <p>2. 操作系统方面 linux 占比最高, 如果平时使用 windows ,也需要花点时间学习一下 linux</p>
             <p>3. 大部分职位要求求职者除了熟练 Python 之外,还需要了解一门或多门其他语言.</p>
             <p>4. 在学习 Python 的同时,数据库学习也不能落下,不管是 sql 还是 nosql ,你得熟悉一门,并且了解另一种</p>
-            <p>5. 学习 web 开发的同学注意了,django 和 flask 框架为目前招聘主流,同时你仍需要了解 html-css-js 等前端知识</p>
+            <p>5. 学习 web 开发的同学注意了,django ，flask 和 tonardo 框架为目前招聘主流,同时你仍需要了解 html-css-js 等前端知识</p>
+
         </div>
     </div>
 
@@ -146,7 +147,7 @@
             <p class="h3">说明: </p>
             <p>本图为不同规模的公司招聘 Python 的数量</p>
             <p class="h3">简单分析: </p>
-            <p>1. 使用 Python 的公司规模多为中小企业,低于 500 人的公司居多</p>
+            <p>1. 使用 Python 的公司规模多为中小企业,低于 1000 人的公司占了绝大多数</p>
 
         </div>
     </div>
@@ -159,8 +160,10 @@
     </div>
     <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
         <p class="h3">说明: </p>
-        <p>1. 本图为目前主流 Python 就职方向分布图</p>
-        <p>2. 上述词汇代表了一类型职位的总出现次数,比如 'web' 和 '后端', '后台'等词汇都属于一类型,统计时做叠加处理</p>
+        <p>1. 本图为目前主流 Python 就职方向分布图已经该方向职位平均薪水</p>
+        <p>2. 目前 Python 的主流职位为后端开发、运维、数据分析,学习Python的同学可以优先考虑向这些方向发展</p>
+        <p>3. 就工资来说，深度学习和数据分析相比其他会高一些。游戏方向最低，看来使用 Python 开发游戏并不是最好的选择</p>
+        <p>4. 要求的平均工作年限方面，运维要求最高，游戏要求最低，普遍在 2 年左右。</p>
     </div>
 </div>
 

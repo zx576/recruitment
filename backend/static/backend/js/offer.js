@@ -584,17 +584,56 @@ function set_scale (scale) {
 }
 
 function set_major (major) {
-  var major_dt = major['require']
+  var major_dt = major
+  // ....
+  // var major_dt = {'运维': [1656, 27383506, 3811], 'web': [1833, 30331159, 4087], '深度学习': [235, 5455734, 451], '游戏': [130, 1531494, 170], '数据分析': [1089, 22611427, 2323], '爬虫': [223, 4097155, 427]}
 
-function get_xaxis (dt) {
-  var major_x = []
-  for (i in major_dt){
-    major_x.push(major_dt[i]['name'])
 
+  // ....
+  function get_xaxis () {
+    var major_x = []
+    for (i in major_dt){
+      major_x.push(i)
+
+    }
+    return major_x
   }
-  return major_x
-}
-// var myChart_m = echarts.init(document.getElementById('major'));
+  // 职位数量
+  function get_recuit (dt) {
+    var nums = []
+    for (i in dt){
+      nums.push(major_dt[dt[i]][0])
+    }
+    return nums
+  }
+  // 职位平均薪水
+  function get_average (dt) {
+    var avg = []
+    for (i in dt){
+      var total = major_dt[dt[i]][1]
+      var count = major_dt[dt[i]][0]
+      avg.push(Math.ceil(total/count))
+    }
+    return avg
+  }
+  function get_years (dt) {
+    var avgy = []
+    for (i in dt){
+      var total_y = major_dt[dt[i]][2]
+      var count = major_dt[dt[i]][0]
+      avgy.push((total_y/count).toFixed(2))
+
+    }
+    return avgy
+  }
+  var xaxis = get_xaxis()
+  var recruit_nums = get_recuit(xaxis)
+  var avg_salary = get_average(xaxis)
+  var avg_year = get_years(xaxis)
+  var r_max = Math.max.apply(null, recruit_nums)
+  var a_max = Math.max.apply(null, avg_salary)
+  var y_max = Math.max.apply(null, avg_year)
+
   var myChartm = document.getElementById('major')
   myChartContainer(myChartm)
   var myChart_m = echarts.init(myChartm);
@@ -602,7 +641,7 @@ function get_xaxis (dt) {
   var option = {
         baseOption:{
           title: {
-          text: 'Python职位方向'
+          text: 'Python职位'
         },
         color: ['#3398DB'],
         tooltip : {
@@ -610,6 +649,9 @@ function get_xaxis (dt) {
             axisPointer : {            // 坐标轴指示器，坐标轴触发有效
                 type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
             }
+        },
+        legend: {
+            data: ['职位方向','职位平均月薪', '职位平均年限']
         },
         grid: {
             left: '3%',
@@ -620,21 +662,76 @@ function get_xaxis (dt) {
         xAxis : [
             {
                 type : 'category',
-                data : get_xaxis(major_dt),
+                data : xaxis,
                 axisTick: {
                     alignWithLabel: true
                 }
             }
         ],
-        yAxis : {
-          name: '职位数量'
+        yAxis :[{
+            type: 'value',
+            name: '职位数量',
+            min: 0,
+            max: r_max,
+            position: 'left',
+            axisLabel: {formatter: '{value} 个'}
+        }, {
+            type: 'value',
+            name: '职位平均月薪',
+            min: 5000,
+            max: a_max,
+            position: 'right',
+            axisLabel: {formatter: '{value} 元'}
         },
-        series : [
+        {
+            type: 'value',
+            name: '职位平均工作年限',
+            min: 0,
+            max: y_max,
+            position: 'right',
+            offset: 100,
+            axisLabel: {formatter: '{value} 年'}
+        }],
+        // series : [
+        //     {
+        //         name:'职位方向',
+        //         type:'bar',
+        //         barWidth: '60%',
+        //         data:major_dt
+        //     }
+        // ]
+          series : [
             {
                 name:'职位方向',
                 type:'bar',
                 barWidth: '60%',
-                data:major_dt
+                yAxisIndex: 0,
+                data:recruit_nums
+            },
+            {
+              name:'职位平均月薪',
+              type: 'line',
+              yAxisIndex: 1,
+              data: avg_salary,
+              lineStyle: {
+                normal: {
+                  color: 'black',
+
+                }
+              }
+            },
+            {
+              name:'职位平均年限',
+              type: 'line',
+              yAxisIndex: 2,
+              data: avg_year,
+              lineStyle: {
+                normal: {
+                  color: 'red',
+
+                }
+              }
+
             }
         ]
         },
