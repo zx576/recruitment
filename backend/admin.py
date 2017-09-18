@@ -31,7 +31,7 @@ class RecruitAdmin(ImportExportModelAdmin):
 @admin.register(Firm)
 class FirmAdmin(ImportExportModelAdmin):
     resource_class = FirmResource
-    list_display = ('firm_name', 'firm_nature', 'firm_industry', 'firm_scale_from', 'firm_scale_to')
+    list_display = ('firm_name', 'firm_nature', 'firm_industry', 'firm_scale_from', 'firm_scale_to', 'is_alive')
 
 @admin.register(ShapedData)
 class ProxyAdmin(admin.ModelAdmin):

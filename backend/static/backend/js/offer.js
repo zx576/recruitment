@@ -643,7 +643,7 @@ function set_major (major) {
           title: {
           text: 'Python职位'
         },
-        color: ['#3398DB'],
+        // color: ['#3398DB'],
         tooltip : {
             trigger: 'axis',
             axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -692,14 +692,6 @@ function set_major (major) {
             offset: 100,
             axisLabel: {formatter: '{value} 年'}
         }],
-        // series : [
-        //     {
-        //         name:'职位方向',
-        //         type:'bar',
-        //         barWidth: '60%',
-        //         data:major_dt
-        //     }
-        // ]
           series : [
             {
                 name:'职位方向',
@@ -712,25 +704,13 @@ function set_major (major) {
               name:'职位平均月薪',
               type: 'line',
               yAxisIndex: 1,
-              data: avg_salary,
-              lineStyle: {
-                normal: {
-                  color: 'black',
-
-                }
-              }
+              data: avg_salary
             },
             {
               name:'职位平均年限',
               type: 'line',
               yAxisIndex: 2,
-              data: avg_year,
-              lineStyle: {
-                normal: {
-                  color: 'red',
-
-                }
-              }
+              data: avg_year
 
             }
         ]
@@ -746,6 +726,39 @@ function set_major (major) {
                 width: '60%',
                 height: '60%'
               }
+            }
+          },
+          {
+            query: {
+              maxAspectRatio: 1
+            },
+            option: {
+              grid: {
+                // left: 'center',
+                width: '120%',
+                height: '60%',
+                top: 100
+              },
+              title: {
+                left: 'center'
+              },
+              legend:{
+                top: '5%'
+              },
+              yAxis :[{
+                  type: 'value',
+                  name: '职位数量',
+                  min: 0,
+                  max: r_max,
+                  position: 'left',
+                  axisLabel: {formatter: '{value} 个'}
+              }, {
+                  show: false
+              },
+              {
+                 show: false
+              }]
+
             }
           }
         ]

@@ -9,6 +9,7 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.server_settings")
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruitment.settings")
 django.setup()
 
 from collections import Counter
@@ -23,7 +24,7 @@ class AnaFirm:
         self.cities = ['北京', '上海', '广州', '深圳', '杭州', '苏州', '西安', '成都', '天津', '南京']
         self.scale = [0, 50, 100, 500, 1000, 5000, 10000, 100000]
         self.invalid_f = [
-            '教育', '培训', '麦子学院', '优才', '渔阳信通'
+            '达内', '黑马', '麦子学院', '优才', '渔阳信通'
         ]
 
     def f_main(self):
@@ -79,12 +80,11 @@ class AnaFirm:
             members = []
             for i in r:
                 members.append(i.member)
-                if i.member >= 10:
-                    print(i.url)
-
+                # if i.member >= 10:
+                #     print(i.url)
             members.sort(reverse=True)
             if not members: continue
-            if members[0] >= 10:
+            if members[0] >= 5:
                 print(f.firm_name, members)
 
     def filter_firms(self):
@@ -102,11 +102,7 @@ class AnaFirm:
         print(count)
 
 
-
-
-
-
 if __name__ == '__main__':
     a = AnaFirm()
     # r = a.f_main()
-    a.filter_firms()
+    a.show_firms()

@@ -77,18 +77,21 @@ body{
 }
 /*salary.html*/
 .salary-bgc{
-    background-color: #95A098;
+    /*background-color: #95A098;*/
+    background-color: #CCCCCC;
 }
 
 /*salary-line.html*/
 
 .salaryline-bgc{
-    background-color: #7B9D9F;
+    /*background-color: #7B9D9F;*/
+    background-color: #99CCCC;
 }
 /*geoshanghai.html*/
 
 .shanghai-bgc{
-    background-color: #99A8A1;
+    /*background-color: #99A8A1;*/
+    background-color: #EAECF0;
 }
 .display-ins-geo{
     width: 60%;
@@ -99,23 +102,23 @@ body{
 /*welfare.html*/
 
 .welfare-bgc{
-    background-color: #D9D6CF;
+    background-color: #CCCCFF;
 }
 
 /*welfare.html*/
 
 .skill-bgc{
-    background-color: #B0D1CA;
+    background-color: #DADBE0;
 }
 
 /*scale.html*/
 .scale-bgc{
-    background-color: #fff;
+    background-color: #EFEFEF;
 }
 
 /*major.html*/
 .major-bgc{
-    background-color: #A2B98D;
+    background-color: #DADBE0;
 }
 
 .display-h{

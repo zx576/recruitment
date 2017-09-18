@@ -128,6 +128,13 @@ keywords = ['运维|监控',
 - 5000 - 10000
 - 10000 - 100000
 
+3、在提取公司的过程中做了异常公司筛选，去掉了某些打着招聘旗号的培训机构
+
+- 去掉一些众所周知的培训机构，比如 某内， 某马等等
+- 在分析时发现，某些公司招聘人数在 5 人以上，同时其公司名中含有 '教育/培训' 的公司多为培训机构。
+- 最后还有一些公司，招聘人数超过 5 人，经手工百度之后，发现为培训机构，也一并去除。
+
+
 
 #### 图六 各方向职位数以及平均薪水
 
@@ -158,15 +165,25 @@ keywords = ['运维|监控',
 
 直接跳过面议岗位，对目前职位的薪水取平均值，比如 10000 - 15000 则取 12500，然后累加。最后除以职位总数，得到该方向平均值。
 
+3、 认定职位年限
+
+年限有如下方式：
+
+- 经验不限
+- 1-3 年经验
+- 3 年经验
+
+处理的时候将经验不限处理为 0 年， 1-3 年取平均值 2 年， 3年经验就取 3 年。
+
 ```python
 
 {
- '数据分析': [1089, 22611427], # 职位名： [职位数量， 职位薪水累加值]
- '游戏': [130, 1531494], 
- 'web': [1833, 30331159], 
- '运维': [1656, 27383506], 
- '爬虫': [223, 4097155], 
- '深度学习': [235, 5455734]}
+'运维': [1656, 27383506, 3811], # '职位方向'： [职位数量， 平均薪水总和， 平均年限总和]
+'web': [1833, 30331159, 4087], 
+'深度学习': [235, 5455734, 451], 
+'游戏': [130, 1531494, 170], 
+'数据分析': [1089, 22611427, 2323], 
+'爬虫': [223, 4097155, 427]}
  
 ```
 
@@ -177,84 +194,6 @@ keywords = ['运维|监控',
 - utils 包含分析数据库，调用高德 API 获取经纬度脚本。
 
 
-```
-├── backend // django APP
-│   ├── admin.py
-│   ├── apps.py
-│   ├── httpbin.py
-│   ├── __init__.py
-│   ├── migrations
-│   │       └── __init__.cpython-35.pyc
-│   ├── models.py
-│   ├── serializers.py
-│   ├── static
-│   │   └── backend
-│   │       ├── css
-│   │       │   ├── bootstrap.css
-│   │       │   ├── lab.css
-│   │       │   └── offer.css
-│   │       ├── img
-│   │       └── js
-│   │           ├── bmap.js
-│   │           ├── bootstrap.js
-│   │           ├── charts
-│   │           │   ├── geoshanghai.js
-│   │           │   ├── major.js
-│   │           │   ├── salary.js
-│   │           │   ├── salary-line.js
-│   │           │   ├── scale.js
-│   │           │   └── welfare.js
-│   │           ├── echarts.js
-│   │           ├── echarts.min.js
-│   │           ├── echarts-wordcloud.min.js
-│   │           ├── jquery-3.2.1.js
-│   │           ├── offer.js
-│   │           └── shanghai.js
-│   ├── templates
-│   │   └── backend
-│   │       ├── base.html
-│   │       ├── geoshanghai.html
-│   │       ├── major.html
-│   │       ├── salary.html
-│   │       ├── salaryline.html
-│   │       ├── scale.html
-│   │       └── welfare.html
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── crawlend // scrapy 
-│   ├── crawlend
-│   │   ├── headers.py
-│   │   ├── __init__.py
-│   │   ├── items.py
-│   │   ├── middlewares.py
-│   │   ├── pipelines.py
-│   │   ├── proxies.py
-│   │   ├── settings.py
-│   │   └── spiders
-│   │       ├── httpbin.py
-│   │       ├── __init__.py
-│   │       ├── job51.py
-│   │       ├── lagou.py
-│   │       ├── liepin.py
-│   │       └── zhilian.py
-│   ├── run_spiders.py
-│   └── scrapy.cfg
-├── manage.py
-├── README.md
-├── recruitment // django project
-│   ├── __init__.py
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-├── requirments.txt
-└── utils // others
-    ├── add_loc_on_firm.py
-    ├── analysis_firm.py
-    ├── analysis_recruit.py
-    └── get_lng_lat.py
-
-```
  
 ### 技术总结
 
