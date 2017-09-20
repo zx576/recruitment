@@ -94,13 +94,15 @@ function set_salary (a_salary) {
                   text: 'Python职位薪水',
                   // subtext: '工作年限-工作城市'
                   left: 'center'
+                // top: '5%'
               },
               tooltip: {
                   trigger: 'item'
               },
               legend: {
                   data:['1年', '1-3年', '3-5年', '5-10年', '10年+'],
-                  right: 'right'
+                  right: 'right',
+                  top: '5%'
               },
               xAxis: {
                   name: '数量'
@@ -114,12 +116,15 @@ function set_salary (a_salary) {
                   data: ['北京', '上海', '广州', '深圳', '杭州', '苏州', '西安', '成都', '天津', '南京'],
                   axisType: 'category',
                   autoPlay: true
-                  // left: 'center',
-                  // bottom: -10
+                   // bottom: 0
+                  // right: 0,
+                  // top: 800
+                  // orient: 'vertical'
                   // rewind: true
               },
               grid:{
                   bottom: 80
+                  // top: 80
                   // height: '100%'
               },
               series: [
@@ -162,6 +167,7 @@ function set_salary (a_salary) {
                   maxAspectRatio: 1
                 },
                 option:{
+
                   grid:{
                     // left: 'center',
                     top: '100',
@@ -170,12 +176,12 @@ function set_salary (a_salary) {
                   },
                   legend: {
                     left: '0',
-                    top: '5%',
+                    top: '6%',
                     orient: 'horizontal'
                   },
                   timeline:{
                     left: '10%',
-                    bottom: '8%'
+                    bottom: 0
                   }
 
                 }
@@ -188,6 +194,7 @@ function set_salary (a_salary) {
                 option:{
                   grid:{
                     left: 'center',
+                    top: 130,
                     width: '60%',
                     height: '60%'
 
@@ -196,7 +203,7 @@ function set_salary (a_salary) {
                     right: '20%'
                   },
                   timeline: {
-                    bottom: '20%'
+                    bottom: 30
                   }
                 }
               }
@@ -262,10 +269,11 @@ function set_salary_line (a_salary) {
           top: '7%'
       },
       grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
+          // left: '3%',
+          // right: '4%',
+          // bottom: '3%',
+          containLabel: true,
+          // top: 100
       },
       xAxis: {
           type: 'category',
@@ -287,7 +295,8 @@ function set_salary_line (a_salary) {
                 // left: 'center',
                 top: '100',
                 width: '90%',
-                height: '60%'
+                height: '60%',
+              left: 0
               },
             legend:{
               top: '5%'
@@ -300,7 +309,7 @@ function set_salary_line (a_salary) {
                     filterMode: 'filter',
                     start: 0,
                     end: 30,
-                    bottom: '15%'
+                    bottom: '10%'
                 }
             ]
           }
@@ -311,7 +320,7 @@ function set_salary_line (a_salary) {
           },
           option:{
             grid:{
-              top: 100,
+              top: 150,
               left:'center',
               width: '60%',
               height: '60%'
@@ -499,13 +508,15 @@ function set_req (reqdt) {
     baseOption: {
       title:{
           text:"Python职位关键词",
-          left:'center'
+          left:'center',
+        top: 50
       },
       timeline: {
         data: keys,
         autoPlay: true,
         // playInterval: 1000,
-        axisType: 'category'
+        axisType: 'category',
+        bottom: '8%'
       },
       series: base_series_data
       },
@@ -517,12 +528,16 @@ function set_req (reqdt) {
         },
         option:{
           timeline:{
-            left: 0
+            left: 0,
+            bottom: 0
           },
           grid:{
             width: '100%',
             height: '100%',
-            left: 0
+            top: 50
+          },
+          title:{
+            top: 0
           }
         }
       }
@@ -709,12 +724,32 @@ function set_major (major) {
               name:'职位平均月薪',
               type: 'line',
               yAxisIndex: 1,
+              label: {
+                normal: {
+                    formatter: '{b}:{c}',
+                    position: 'left',
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
               data: avg_salary
             },
             {
               name:'职位平均年限',
               type: 'line',
               yAxisIndex: 2,
+              label: {
+                normal: {
+                    formatter: '{b}:{c}',
+                    position: 'left',
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
               data: avg_year
 
             }
@@ -729,7 +764,8 @@ function set_major (major) {
               grid: {
                 left: 'center',
                 width: '60%',
-                height: '60%'
+                height: '70%',
+                top: 150
               }
             }
           },

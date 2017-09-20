@@ -24,6 +24,19 @@ body{
     width: 100%;
 }
 
+.recj{
+   background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-position:center;
+    background-size: cover;
+    background-color: #424242;
+    padding-bottom: 100px;
+}
+
+.rec-con{
+    padding-top: 50px;
+}
+
 .top-block{
     /*margin-top: 20px;*/
     padding-top: 20px;
@@ -122,9 +135,22 @@ body{
 }
 
 .display-h{
-    padding-top: 20px;
+    padding-top: 70px;
 }
 
 .lab-footer{
     width: 70%;
+}
+
+.bott{
+    padding-bottom: 50px;
+}
+
+@media screen and (min-width: 800px) {
+    .rec-goright{
+        padding-left: 5%;
+    }
+    .rec-goleft{
+        padding-left: -20px;
+    }
 }
