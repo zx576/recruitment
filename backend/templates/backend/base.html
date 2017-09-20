@@ -99,21 +99,6 @@
         </div>
     </div>
 
-{#      地图  #}
-
-    <div class="row shanghai-bgc">
-    <!-- 表显示 -->
-        <div class="display-h col-md-12">
-            <div class="center-block">
-                <div class="geo-box center-block" id='shanghaigeo'></div>
-
-                <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
-                    <p>本图接入了百度地图,可放大缩小查看具体城市更详细的内容</p>
-                    <p>在之前提到过的城市的朋友，可以看看你家附近有多少 Python 岗位呢?</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
 {#        skills#}
 
@@ -167,20 +152,49 @@
     </div>
 </div>
 
+{#      地图  #}
+
+    <div class="row shanghai-bgc">
+    <!-- 表显示 -->
+        <div class="display-h col-md-12">
+            <div class="center-block">
+                <div class="geo-box center-block" id='shanghaigeo'></div>
+                <br><br>
+                <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+                    <p>本图接入了百度地图,可放大缩小查看具体城市更详细的内容</p>
+                    <p>在之前提到过的城市的朋友，可以看看你家附近有多少 Python 岗位呢?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
-{#{% include 'backend/salary.html' %}#}
-{#<div style="margin-top: -10px">#}
-{#    {% include 'backend/salaryline.html' %}#}
-{#</div>#}
-{##}
-{#<div style="margin-top: -10px">#}
-{#{% include 'backend/geoshanghai.html' %}#}
-{#</div>#}
-{#{% include 'backend/welfare.html' %}#}
-{#{% include 'backend/major.html' %}#}
-{#{% include 'backend/scale.html' %}#}
+{#      页脚#}
+<footer class="lab-footer center-block">
+    <div class="container-fluid">
+        <div class="row lab-footer-row">
+            <br>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <h4>Crossin的编程教室</h4>
+            <p>编程世界的新手村。扫描右侧二维码，关注公众号，获取更多学习资源</p>
+            <p>获取代码以及详细文章，请在微信公众号 "Crossin的编程教室" 回复 <strong>招聘</strong></p>
+            <div>
+                <h4>站内其他链接： </h4>
+                <p><a href="/rhyme">Freestyle</a> | <a href="/proxy">IP 代理</a> | <a href="/movie">电影票实时查询</a></p>
+                <p><a href="/recite">Python高频词汇</a> | <a href="/tools">在线小工具</a></p>
+            </div>
+            <p>苏ICP备15063769号</p>
+
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <img src="{% static 'backend/img/wxqr.jpg' %}" alt="Crossin的编程教室二维码" class="lab-ft-img pull-right">
+        </div>
+
+    </div>
+    </div>
+</footer>
 
 <script src="http://api.map.baidu.com/api?v=2.0&ak=qnzVuKRtM7jL77gt0G0HVG7G2S9pmxG3"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>

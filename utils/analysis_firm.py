@@ -15,6 +15,7 @@ django.setup()
 from collections import Counter
 import jieba
 import re
+import requests
 
 from backend.models import Recruit, Firm
 class AnaFirm:
@@ -101,8 +102,47 @@ class AnaFirm:
 
         print(count)
 
+    # 获取目前已经证实的培训机构
+    # 保存至文件
+    def _save_fake_c(self):
+        req = requests.get('https://blacklist.yitu.yt/companyList/')
+        json_dt = req.json()
+        res = []
+        for item in json_dt['companyList']:
+            res.append(item['name'])
+
+        with open('fakeCompany.txt', 'w')as f:
+            f.write('\n'.join(res))
+
+    # 遍历数据库内数据
+    # 查看是否有公司在黑名单上
+    def check_blacklist(self):
+        with open('fakeCompany.txt', 'r')as f:
+            blacklist = f.read()
+        query = Firm.objects.all()
+        for item in query:
+            name = item.firm_name
+            try:
+                is_on_blist = re.match(name, blacklist)
+
+                # is_on_blist = name in blacklist
+                if is_on_blist:
+                    print(name)
+                    # continue
+                    item.is_alive = False
+                    jobs = item.recruit_set.all()
+                    for job in jobs:
+                        job.is_alive = False
+                        job.save()
+
+                    item.save()
+
+            except:
+                pass
+
 
 if __name__ == '__main__':
     a = AnaFirm()
     # r = a.f_main()
-    a.show_firms()
+    # a.show_firms()
+    a.check_blacklist()

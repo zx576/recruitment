@@ -120,6 +120,7 @@ function set_salary (a_salary) {
               },
               grid:{
                   bottom: 80
+                  // height: '100%'
               },
               series: [
               {
@@ -330,7 +331,7 @@ function set_geo (geo) {
   var geodt = geo['loc']
   // var shanghaichart = echarts.init(document.getElementById('shanghaigeo'));
   var shanghai_chart = document.getElementById('shanghaigeo')
-  myChartContainer(shanghai_chart)
+  geoContainer(shanghai_chart)
   var shanghaichart = echarts.init(shanghai_chart);
 
     var option = {
@@ -550,7 +551,8 @@ function set_scale (scale) {
 
     baseOption: {
       title: {
-      text: '招聘 Python 公司规模'
+      text: '招聘 Python 公司规模',
+        left: 'center'
     },
      tooltip : {
         trigger: 'item',
@@ -641,7 +643,8 @@ function set_major (major) {
   var option = {
         baseOption:{
           title: {
-          text: 'Python职位'
+          text: 'Python职位',
+            left: 'center'
         },
         // color: ['#3398DB'],
         tooltip : {
@@ -651,12 +654,14 @@ function set_major (major) {
             }
         },
         legend: {
-            data: ['职位方向','职位平均月薪', '职位平均年限']
+            data: ['职位方向','职位平均月薪', '职位平均年限'],
+            top: '5%'
         },
         grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
+            left: 0,
+            // right: '4%',
+            bottom: 0,
+            top: '10%',
             containLabel: true
         },
         xAxis : [
@@ -772,7 +777,17 @@ var myChartContainer = function (myChart) {
     var screenW = window.innerWidth;
     var screenH = window.innerHeight;
     myChart.style.width =  screenW*(0.9)+'px';
-    myChart.style.height = screenH*(0.9) +'px';
+    myChart.style.height = screenH*(0.7) +'px';
+
+    return [screenW, screenH]
+};
+
+var geoContainer = function (myChart) {
+
+    var screenW = window.innerWidth;
+    var screenH = window.innerHeight;
+    myChart.style.width =  screenW*(0.7)+'px';
+    myChart.style.height = screenH*(0.8) +'px';
 
     return [screenW, screenH]
 };

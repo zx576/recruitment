@@ -24,7 +24,7 @@ class ProxyAdmin(admin.ModelAdmin):
 @admin.register(Recruit)
 class RecruitAdmin(ImportExportModelAdmin):
     resource_class = RecruitResource
-    list_display = ('resource', 'name', 'degree', 'release', 'work_place','salary_from', 'salary_to')
+    list_display = ('resource', 'name', 'degree', 'release', 'work_place','salary_from', 'salary_to', 'is_alive')
     list_filter = ('resource', 'created_time')
 
 
