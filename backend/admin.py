@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Recruit, Proxy, Firm, ShapedData
+# import_export 为 django　插件
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
@@ -31,10 +32,11 @@ class RecruitAdmin(ImportExportModelAdmin):
 @admin.register(Firm)
 class FirmAdmin(ImportExportModelAdmin):
     resource_class = FirmResource
-    list_display = ('firm_name', 'firm_nature', 'firm_industry', 'firm_scale_from', 'firm_scale_to', 'is_alive')
+    list_display = ('firm_name', 'firm_nature', 'firm_industry',
+                    'firm_scale_from', 'firm_scale_to', 'is_alive')
 
 @admin.register(ShapedData)
-class ProxyAdmin(admin.ModelAdmin):
+class ShapeAdmin(admin.ModelAdmin):
     # list_display = ('head', 'addr', 'is_alive', 'is_http_and_https')
     # list_editable = ('is_alive',)
     list_per_page = 50

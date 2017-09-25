@@ -21,13 +21,15 @@ class CrawlendPipeline(object):
         在 pipline 中分发两个 DjangoItem 对象
         这样就可以轻松存外键了， 详细说明见博客园：
         '''
+
+        # 检查数据库内是否已经存在该公司
         def _check_firm(firm_name):
             try:
                 ins = Firm.objects.get(firm_name=firm_name)
                 return ins
             except:
                 return None
-        #
+        #　分发 dict
         if isinstance(item, dict):
 
             # 提取 两个 ITEM

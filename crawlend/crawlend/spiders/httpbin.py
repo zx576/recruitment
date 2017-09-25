@@ -26,7 +26,5 @@ class HttpbinSpider(scrapy.Spider):
         # res = soup.find('b').string
         print(soup)
         item = ProxyItem()
-
         # item['addr'] = '222.222.222.222'
-
         yield item

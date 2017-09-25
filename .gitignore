@@ -5,3 +5,4 @@ server_settings.py
 *.sock
 deploy
 /static/
+.vscode

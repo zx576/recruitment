@@ -68,8 +68,8 @@ COOKIES_ENABLED = False
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
    # 'crawlend.middlewares.MyCustomDownloaderMiddleware': 543,
-   'crawlend.middlewares.UAMiddleWare': 546,
-   'crawlend.middlewares.ProxyMiddleWare': 550
+    'crawlend.middlewares.UAMiddleWare': 546,
+    'crawlend.middlewares.ProxyMiddleWare': 550
 }
 # DOWNLOAD_TIMEOUT = 10
 # Enable or disable extensions

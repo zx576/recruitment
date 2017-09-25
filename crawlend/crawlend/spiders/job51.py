@@ -34,7 +34,6 @@ class Job51Spider(scrapy.Spider):
     start_urls += urls
 
 
-
     def parse(self, response):
 
         def check_href(url):
@@ -46,7 +45,6 @@ class Job51Spider(scrapy.Spider):
 
         soup = bs4.BeautifulSoup(response.body, 'lxml')
         # 下一页
-
         soup_next = soup.find('a', text='下一页')
         if not soup_next:
             yield Request(response.url, callback=self.parse, dont_filter=True, headers={'Referer': 'http://search.51job.com/'})
@@ -197,14 +195,6 @@ class Job51Spider(scrapy.Spider):
         soup_intro = soup.find('div', class_='tmsg inbox')
         firm['firm_introduction'] = soup_intro.get_text(strip=True)
 
-
-        #
-        # print([i for i in soup_qua_div.stripped_strings])
-        # exp, deg, mem, date_ = [i for i in soup_qua_div.stripped_strings]
-        # print(exp,deg,mem,date_)
-
         item['offer'] = offer
         item['firm'] = firm
         yield item
-        # except:
-        #     yield Request(response.url, callback=self.parse_detail, dont_filter=True)

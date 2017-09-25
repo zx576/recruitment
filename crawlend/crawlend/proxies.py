@@ -1,6 +1,11 @@
 # coding=utf-8
 # date=2017.8.2
 
+'''
+获取 IP 源需要重写，因为目前编程教室的 API 已经调整为每分钟限一次
+获取有效 IP 会比较少　-- 2017/09/25
+'''
+
 import requests
 from backend.models import Proxy
 import time
